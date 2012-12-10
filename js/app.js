@@ -9,16 +9,22 @@
             'change #hosts': 'showActions',
             'click #get_dwm': 'getDWM',
             'click #add_dwm': 'displayDWM',
-            'click #create_dwm': 'addDWM'
+            'click #create_dwm': 'addDWM',
+            'keydown #dwm_url': 'updateUrl'
         },
         initialize: function() {
             $('#content').hide();
             $('#login').show();
             $('#actions').hide();
-            _.bindAll(this, 'login', 'reset', 'getGroups', 'getHosts', 'showActions', 'getDWM', 'displayDWM', 'addDWM');
+            _.bindAll(this, 'login', 'reset', 'getGroups', 'getHosts', 'showActions', 'getDWM', 'displayDWM', 'addDWM', 'updateUrl');
         },
         render: function() {
             return this;
+        },
+        updateUrl: function(target) {
+            var url = $('#dwm_url').val();
+            target.parent.find('a').attr('href', url);
+            target.parent.find('a').val(url);
         },
         login: function() {
             var view = this;
