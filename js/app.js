@@ -24,8 +24,8 @@
         updateUrl: function(target) {
             var url = $('#dwm_url').val();
             if (url.search(/^http(|s):\/\//) === -1) url = 'http://'+ url;
-            target.parent().find('a').attr('href', url);
-            target.parent().find('a').html(url);
+            $('#dwm_url').parent().find('a').attr('href', url);
+            $('#dwm_url').parent().find('a').html(url);
         },
         login: function() {
             var view = this;
