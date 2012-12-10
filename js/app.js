@@ -43,7 +43,7 @@
             $('#error').empty();
             $('#content').show();
             $('#login').hide();
-            $('#wdm').hide();
+            $('#dwm').hide();
             $('#actions').hide();
         },
         showActions: function() {
@@ -107,7 +107,7 @@
             });
         },
         displayDWM: function() {
-            $('#wdm').show();
+            $('#dwm').show();
         },
         addDWM: function() {
             var url = $('#dwm_url').val();
