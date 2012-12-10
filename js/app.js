@@ -150,7 +150,7 @@
             
             var trigger = {
                 description: 'Distributed Web Monitor - Bad URL - '+ url,
-                expression: '{'+ $('#hosts').text() +':'+ item.key_ +'.last(0)}=(-5)',
+                expression: '{'+ $('#hosts').attr('selected').text() +':'+ item.key_ +'.last(0)}=(-5)',
                 url: 'https://wiki.service.chinanetcloud.com/wiki/Operations:NC-OP_AP-123-Distributed_web_check_error_XXX_on_HOSTNAME',
                 status: 0,
                 priority: 0,
