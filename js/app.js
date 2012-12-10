@@ -109,7 +109,7 @@
                         } else {
                             if (_.isEmpty(resp.result)) {
                                 $('#results').append('not existing.</br>');
-                                cb(null)
+                                cb(null, null)
                             } else {
                                 $('#results').append('done</br>');
                                 cb(null, resp.result[0].applicationid);
