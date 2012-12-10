@@ -10,7 +10,7 @@
             'click #get_dwm': 'getDWM',
             'click #add_dwm': 'displayDWM',
             'click #create_dwm': 'addDWM',
-            'keydown #dwm_url': 'updateUrl'
+            'keyup #dwm_url': 'updateUrl'
         },
         initialize: function() {
             $('#content').hide();
@@ -22,12 +22,15 @@
             return this;
         },
         updateUrl: function(target) {
+            // simply display the URL as a link when being entered to ensure it exists !
             var url = $('#dwm_url').val();
             if (url.search(/^http(|s):\/\//) === -1) url = 'http://'+ url;
             $('#dwm_url').parent().find('a').attr('href', url);
             $('#dwm_url').parent().find('a').html(url);
         },
         login: function() {
+            // authenticate against zabbix server - need to do at every refresh
+            // TODO : rely on session
             var view = this;
             var user = $('#user').val();
             var pass = $('#pass').val();
@@ -47,6 +50,8 @@
             }
         },
         reset: function() {
+            // simply reset the view and add the various fields
+            // TODO: user various sub-views instead
             $('#error').empty();
             $('#content').show();
             $('#login').hide();
@@ -61,6 +66,7 @@
             }
         },
         getGroups: function() {
+            // fetch groups, then populate the #groups select
             var view = this;
             window.zabbix.call('hostgroup.get', {
                 output: 'extend',
@@ -78,6 +84,7 @@
             });
         },
         getHosts: function() {
+            // fetch hosts using group, then populate the #hosts select
             var view = this;
             window.zabbix.call('host.get', {
                 output: 'extend',
@@ -96,6 +103,8 @@
             });
         },
         getDWM: function() {
+            // fetch existing Distributed Web Monitoring info for that host
+            // TODO: display more info, such as triggers, etc.
             window.zabbix.call('item.get', {
                 output: 'extend',
                 hostids: $('#hosts').val(),
@@ -139,7 +148,17 @@
                 hostid: $('#hosts').val()
             }
             
+            var trigger = {
+                description: 'Distributed Web Monitor - Bad URL - '+ url,
+                expression: '{'+ $('#hosts').text() +':'+ item.key_ +'.last(0)}=(-5)',
+                url: 'https://wiki.service.chinanetcloud.com/wiki/Operations:NC-OP_AP-123-Distributed_web_check_error_XXX_on_HOSTNAME',
+                status: 0,
+                priority: 0,
+                type: 0
+            }
+            
             console.log('item: ', item);
+            console.log('trigger: ', trigger);
             return;
             
             
