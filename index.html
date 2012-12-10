@@ -22,6 +22,29 @@
                 <input type='button' id='add_dwm' value='Add Distributed Web Monitoring' />
                 <input type='button' id='add_other' value='Do something else...' />
             </div>
+            <div id='dwm'>
+                <div class='item'>
+                    <label for='dwm_url'>Url</label>
+                    <input type='text' placeholder='http://example.com' id='dwm_url' name='dwm_url' value=''>
+                </div>
+                <div class='item'>
+                    <label for='dwm_timeout'>Timeout (in sec)</label>
+                    <input type='text' placeholder='30' id='dwm_timeout' name='dwm_timeout' value=''>
+                </div>
+                <div class='item'>
+                    <label for='dwm_text'>Matching text</label>
+                    <input type='text' placeholder='some text to match' id='dwm_text' name='dwm_text' value=''>
+                </div>
+                <div class='item'>
+                    <label for='dwm_code'>Return code</label>
+                    <input type='text' placeholder='200' id='dwm_code' name='dwm_code' value=''>
+                </div>
+                <div class='item'>
+                    <label for='dwm_frequency'>Frequency (in sec)</label>
+                    <input type='text' placeholder='120' id='dwm_frequency' name='dwm_frequency' value=''>
+                </div>
+                <input type='button' id='create_dwm' value='Create Distributed Web Monitoring' />
+            </div>
             <div id='results'></div>
         </div>
         <div id='error'></div>
