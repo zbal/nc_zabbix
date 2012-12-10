@@ -23,8 +23,9 @@
         },
         updateUrl: function(target) {
             var url = $('#dwm_url').val();
-            target.parent.find('a').attr('href', url);
-            target.parent.find('a').val(url);
+            if (url.search(/^http(|s):\/\//) === -1) url = 'http://'+ url;
+            target.parent().find('a').attr('href', url);
+            target.parent().find('a').html(url);
         },
         login: function() {
             var view = this;
