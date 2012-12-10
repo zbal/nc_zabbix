@@ -1,0 +1,29 @@
+{
+    "author": "Vincent Viallet <vincent.viallet@gmail.com> (http://balourama.org)",
+    "name": "nc_zabbix",
+    "description": "A minimal interface to interact with NetCloud Zabbix API.",
+    "version": "0.0.1",
+    "main": "./lib/zabbix",
+    "keywords": [
+        "zabbix",
+        "zabbixapi",
+        "jsonrpc2"
+    ],
+    "homepage": "http://github.com/zbal/nc_zabbix",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/zbal/nc_zabbix.git"
+    },
+    "dependencies": {
+        "zabbix": ">0.x",
+        "express": ">3.x"
+    },
+    "devDependencies": {
+      "mocha" : "~1.3.0",
+        "should" : "~1.0.0"
+        },
+    "optionalDependencies": {},
+    "engines": {
+        "node": "*"
+    }
+}
