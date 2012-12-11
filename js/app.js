@@ -169,9 +169,9 @@
                 }
             }
             
-            console.log('item: ', item);
+            console.log('item: ', zbx_item);
             _.each(triggers, function(trigger) {
-                console.log('trigger: ', buildTrigger(trigger, item, url));
+                console.log('trigger: ', buildTrigger(trigger, zbx_item, url));
             });
             return;
             
