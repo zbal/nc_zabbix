@@ -137,7 +137,7 @@
             if (!timeout) return alert('Missing timeout');
             if (!text) return alert('Missing matching text');
 
-            var item = {
+            var zbx_item = {
                 key_: 'nc.web.status['+ url +','+ timeout +','+ code +','+ text +',]',
                 description: 'Distributed Web Monitor - $1',
                 type: 2,
@@ -148,17 +148,31 @@
                 hostid: $('#hosts').val()
             }
             
-            var trigger = {
-                description: 'Distributed Web Monitor - Bad URL - '+ url,
-                expression: '{'+ $('#hosts').attr('selected').text() +':'+ item.key_ +'.last(0)}=(-5)',
-                url: 'https://wiki.service.chinanetcloud.com/wiki/Operations:NC-OP_AP-123-Distributed_web_check_error_XXX_on_HOSTNAME',
-                status: 0,
-                priority: 0,
-                type: 0
+            var triggers = [
+                { name: 'Other error',      value: '-1',  priority: 0 },
+                { name: 'Bad URL',          value: '-5',  priority: 0 },
+                { name: 'Bad DNS',          value: '-10', priority: 0 },
+                { name: 'Connection issue', value: '-20', priority: 0 },
+                { name: 'Timeout',          value: '-30', priority: 0 },
+                { name: 'Bad return code',  value: '-40', priority: 0 },
+                { name: 'Bad text',         value: '-50', priority: 0 },
+            ];
+            
+            var buildTrigger = function(trigger, item, url) {
+                return {
+                    description: 'Distributed Web Monitor - '+ trigger.name +' - '+ url,
+                    expression: '{'+ $('#hosts option').filter(':selected').text() +':'+ item.key_ +'.last(0)}=('+ trigger.value +')',
+                    url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=123',
+                    status: 0,
+                    priority: trigger.priority,
+                    type: 0
+                }
             }
             
             console.log('item: ', item);
-            console.log('trigger: ', trigger);
+            _.each(triggers, function(trigger) {
+                console.log('trigger: ', buildTrigger(trigger, item, url));
+            });
             return;
             
             
