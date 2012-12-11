@@ -89,7 +89,7 @@
             window.zabbix.call('host.get', {
                 output: 'extend',
                 groupids: $('#groups').val(),
-                select_profile: 1
+                select_profile: 'extend'
             }, function(err, resp) {
                 if (err) {
                     $('#error').html(err.data ? err.data : err.message);
