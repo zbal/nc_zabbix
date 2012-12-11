@@ -61,7 +61,8 @@
             $('#actions').hide();
         },
         showActions: function() {
-            this.host = _.filter(view.hosts, function(host) {
+            var view = this;
+            view.host = _.filter(view.hosts, function(host) {
                 return host.hostid === $('#hosts').val();
             })[0];
             if (!_.isEmpty($('#groups').val()) && !_.isEmpty($('#hosts').val())) {
