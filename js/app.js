@@ -88,12 +88,14 @@
             var view = this;
             window.zabbix.call('host.get', {
                 output: 'extend',
-                groupids: $('#groups').val()
+                groupids: $('#groups').val(),
+                select_profile: 1
             }, function(err, resp) {
                 if (err) {
                     $('#error').html(err.data ? err.data : err.message);
                 } else {
                     view.reset();
+                    view.hosts = resp.result;
                     $('#hosts').html('<option value=""> -- Select an host -- </option>');
                     _.each(resp.result, function(item) {
                         $('#hosts').append('<option value="'+ item.hostid +'">'+ item.host +'</option>');
@@ -123,19 +125,36 @@
             });
         },
         displayDWM: function() {
+            var view = this;
+            var host = _.filter(view.hosts, function(host) {
+                return host.hostid === parseInt($('#hosts').val());
+            })[0];
             $('#dwm').show();
+            $('#webnode option:selected').removeAttr('selected');
+            $('#webnote option').each(function(option) {
+                if (option.val().toLowerCase() === host.profile.macaddress.toLowerCase()) option.addAttr('selected');
+            });
         },
         addDWM: function() {
             var url = $('#dwm_url').val();
             var code = $('#dwm_code').val();
             var timeout = $('#dwm_timeout').val();
             var text = $('#dwm_text').val();
-            var frequency = $('#dwm_frequency').val() || 120;
+            var frequency = $('#dwm_frequency').val();
             
             if (!url) return alert('Missing URL');
             if (!code) return alert('Missing return code');
             if (!timeout) return alert('Missing timeout');
             if (!text) return alert('Missing matching text');
+
+            // check type and reformat
+            if (!code.match(/^[0-9]*$/)) return alert('Invalid code format - expecting number')
+            if (!timeout.match(/^[0-9]*$/)) return alert('Invalid timeout format - expecting number')
+            if (!frequency.match(/^[0-9]*$/)) return alert('Invalid frequency format - expecting number')
+            var code = parseInt(code);
+            var timeout = parseInt(timeout);
+            var frequency = parseInt(frequency);
+            if (url.search(/^http(|s):\/\//) === -1) url = 'http://'+ url;
 
             var zbx_item = {
                 key_: 'nc.web.status['+ url +','+ timeout +','+ code +','+ text +',]',
@@ -145,7 +164,8 @@
                 status: 0,
                 history: 7,
                 trends: 30,
-                hostid: $('#hosts').val()
+                hostid: parseInt($('#hosts').val()),
+                delay: frequency
             }
             
             var triggers = [

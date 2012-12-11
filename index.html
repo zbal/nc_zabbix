@@ -24,6 +24,16 @@
             </div>
             <div id='dwm'>
                 <div class='item'>
+                    <label for='webnode'>Web check source</label>
+                    <select name='webnode' id='webnode'>
+                        <option value=''> -- select source -- </option>
+                        <option value='china'>China - Shanghai</option>
+                        <option value='bj'>China - BeiJing</option>
+                        <option value='hk'>World - HongKong</option>
+                    </select>
+                    <input type='button' id='update_host' value='Update' />
+                </div>
+                <div class='item'>
                     <label for='dwm_url'>Url</label>
                     <input type='text' placeholder='http://example.com' id='dwm_url' name='dwm_url' value=''>
                     <a href='' target='_blank'></a>
