@@ -10,13 +10,15 @@
             'click #get_dwm': 'getDWM',
             'click #add_dwm': 'displayDWM',
             'click #create_dwm': 'addDWM',
-            'keyup #dwm_url': 'updateUrl'
+            'keyup #dwm_url': 'updateUrl',
+            'click #update_profile': 'updateProfile'
         },
         initialize: function() {
             $('#content').hide();
             $('#login').show();
             $('#actions').hide();
-            _.bindAll(this, 'login', 'reset', 'getGroups', 'getHosts', 'showActions', 'getDWM', 'displayDWM', 'addDWM', 'updateUrl');
+            _.bindAll(this, 'login', 'reset', 'getGroups', 'getHosts', 'showActions');
+            _.bindAll(this, 'getDWM', 'displayDWM', 'addDWM', 'updateUrl', 'updateProfile');
         },
         render: function() {
             return this;
@@ -59,6 +61,9 @@
             $('#actions').hide();
         },
         showActions: function() {
+            this.host = _.filter(view.hosts, function(host) {
+                return host.hostid === $('#hosts').val();
+            })[0];
             if (!_.isEmpty($('#groups').val()) && !_.isEmpty($('#hosts').val())) {
                 $('#actions').show();
             } else {
@@ -126,16 +131,39 @@
         },
         displayDWM: function() {
             var view = this;
-            var host = _.filter(view.hosts, function(host) {
-                return host.hostid === parseInt($('#hosts').val());
-            })[0];
             $('#dwm').show();
             $('#webnode option:selected').removeAttr('selected');
-            $('#webnote option').each(function(option) {
-                if (option.val().toLowerCase() === host.profile.macaddress.toLowerCase()) option.addAttr('selected');
+            $('#webnode option').each(function(index) {
+                if ($(this).val().toLowerCase() === view.host.profile.macaddress.toLowerCase()) $(this).attr('selected', 'selected');
+            });
+        },
+        updateProfile: function() {
+            var view = this;
+            // update the host profile to use the proper "macaddress"
+            if (_.isEmpty($('#webnode').val())) return alert('Select a region to run the DWM from.');
+            
+            view.host.profile || view.host.profile = {};
+            view.host.profile.macaddress = $('#webnode').val();
+            
+            window.zabbix.call('host.update', {
+                hostid: parseInt($('#hosts').val()),
+                profile: view.host.profile
+            }, function(err, resp) {
+                if (err) {
+                    $('#error').html(err.data ? err.data : err.message);
+                } else {
+                    $('#error').empty();
+                    $('#results').empty();
+                    _.each(resp.result, function(item) {
+                        $('#results').append('Host profile updated.<br/>');
+                    });
+                }
             });
         },
         addDWM: function() {
+            var view = this;
+            var host = view.host;
+            
             var url = $('#dwm_url').val();
             var code = $('#dwm_code').val();
             var timeout = $('#dwm_timeout').val();
@@ -181,7 +209,7 @@
             var buildTrigger = function(trigger, item, url) {
                 return {
                     description: 'Distributed Web Monitor - '+ trigger.name +' - '+ url,
-                    expression: '{'+ $('#hosts option').filter(':selected').text() +':'+ item.key_ +'.last(0)}=('+ trigger.value +')',
+                    expression: '{'+ host.host +':'+ item.key_ +'.last(0)}=('+ trigger.value +')',
                     url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=123',
                     status: 0,
                     priority: trigger.priority,
@@ -201,7 +229,7 @@
                 function(cb) {
                     $('#results').append('Fetching application id: ... ');
                     window.zabbix.call('application.get', {
-                        hostids: $('#hosts').val(),
+                        hostids: host.hostid,
                         filter: {name: 'Distributed Web Monitoring'},
                         output: 'shorten'
                     }, function(err, resp) {
@@ -224,7 +252,7 @@
                     } else {
                         $('#results').append('Creating new application: ... ');
                         window.zabbix.call('application.create', {
-                            hostid: $('#hosts').val(),
+                            hostid: host.hostid,
                             name: 'Distributed Web Monitoring'
                         }, function(err, resp) {
                             if (err) {

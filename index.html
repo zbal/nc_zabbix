@@ -5,8 +5,8 @@
         <script language="javascript" src="js/vendors/jquery.min.js" type="text/javascript"></script>
         <script language="javascript" src="js/vendors/underscore.min.js" type="text/javascript"></script>
         <script language="javascript" src="js/vendors/backbone.min.js" type="text/javascript"></script>
+        <script language="javascript" src="js/vendors/async.js" type="text/javascript"></script>
         <script language="javascript" src="js/zabbix.js" type="text/javascript"></script>
-        <script language="javascript" src="js/async.js" type="text/javascript"></script>
     </head>
     <body>
         <div id='login'>
@@ -32,6 +32,7 @@
                         <option value='hk'>World - HongKong</option>
                     </select>
                     <input type='button' id='update_host' value='Update' />
+                    Note, if you update the source it will reflect to all DWM checks applied to this host.
                 </div>
                 <div class='item'>
                     <label for='dwm_url'>Url</label>
