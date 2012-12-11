@@ -55,6 +55,7 @@
             // simply reset the view and add the various fields
             // TODO: user various sub-views instead
             $('#error').empty();
+            $('#results').empty();
             $('#content').show();
             $('#login').hide();
             $('#dwm').hide();
@@ -135,7 +136,7 @@
             $('#dwm').show();
             $('#webnode option:selected').removeAttr('selected');
             $('#webnode option').each(function(index) {
-                if ($(this).val().toLowerCase() === view.host.profile.macaddress.toLowerCase()) $(this).attr('selected', 'selected');
+                if (view.host.profile.macaddress && $(this).val().toLowerCase() === view.host.profile.macaddress.toLowerCase()) $(this).attr('selected', 'selected');
             });
         },
         updateProfile: function() {
@@ -143,7 +144,23 @@
             // update the host profile to use the proper "macaddress"
             if (_.isEmpty($('#webnode').val())) return alert('Select a region to run the DWM from.');
             
-            view.host.profile || view.host.profile = {};
+            view.host.profile || (view.host.profile = {});
+            if (_.isArray(view.host.profile)) {
+                // if array -> not set hence need create with all attributes
+                view.host.profile = {
+                    devicetype: '',
+                    name: '',
+                    os: '',
+                    serialno: '',
+                    tag: '',
+                    macaddress: '',
+                    hardware: '',
+                    software: '',
+                    contact: '',
+                    location: '',
+                    notes: ''
+                };
+            };
             view.host.profile.macaddress = $('#webnode').val();
             
             window.zabbix.call('host.update', {
@@ -193,7 +210,7 @@
                 status: 0,
                 history: 7,
                 trends: 30,
-                hostid: parseInt($('#hosts').val()),
+                hostid: parseInt(host.hostid),
                 delay: frequency
             }
             
@@ -226,9 +243,9 @@
             
             
             // waterfall execution
-            async.waterfall([
+            var actions = [
                 function(cb) {
-                    $('#results').append('Fetching application id: ... ');
+                    $('#results').append('Searching for existing application id: ... ');
                     window.zabbix.call('application.get', {
                         hostids: host.hostid,
                         filter: {name: 'Distributed Web Monitoring'},
@@ -267,10 +284,50 @@
                 },
                 function(appid, cb) {
                     $('#results').append('application id: '+ appid +'...</br>');
-                    $('#results').append('That\'s enough for today ! going back home...</br>');
+                    $('#results').append('Searching for existing DWM item: ... ');
+                    window.zabbix.call('item.get', {
+                        hostids: host.hostid,
+                        filter: {key_: zbx_item.key_},
+                        output: 'shorten'
+                    }, function(err, resp) {
+                        if (err) {
+                            cb(err);
+                        } else {
+                            if (_.isEmpty(resp.result)) {
+                                $('#results').append('not existing.</br>');
+                                cb(null, null, appid)
+                            } else {
+                                $('#results').append('done</br>');
+                                cb(null, resp.result[0].itemid, appid);
+                            }
+                        }
+                    });
+                },
+                function(itemid, appid, cb) {
+                    if (itemid) {
+                        cb(null, itemid, appid);
+                    } else {
+                        $('#results').append('Creating new DWM item: ... ');
+                        zbx_item.applications = appid
+                        window.zabbix.call('item.create', zbx_item, function(err, resp) {
+                            if (err) {
+                                cb(err);
+                            } else {
+                                $('#results').append('done</br>');
+                                cb(null, resp.result[0].itemid, appid);
+                            }
+                        });
+                    }
+                },
+                function(itemid, appid, cb) {
+                    $('#results').append('itemid: '+ itemid +' - appid: '+ appid +'</br>');
                     cb(null);
                 }
-            ], function(err, result) {
+            ];
+            
+            
+            
+            async.waterfall(actions, function(err, result) {
                 if (err) {
                     $('#error').html(err.data ? err.data : err.message);
                 }
