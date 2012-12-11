@@ -214,34 +214,6 @@
                 delay: frequency
             }
             
-            var triggers = [
-                { name: 'Other error',      value: '-1',  priority: 0 },
-                { name: 'Bad URL',          value: '-5',  priority: 0 },
-                { name: 'Bad DNS',          value: '-10', priority: 0 },
-                { name: 'Connection issue', value: '-20', priority: 0 },
-                { name: 'Timeout',          value: '-30', priority: 0 },
-                { name: 'Bad return code',  value: '-40', priority: 0 },
-                { name: 'Bad text',         value: '-50', priority: 0 },
-            ];
-            
-            var buildTrigger = function(trigger, item, url) {
-                return {
-                    description: 'Distributed Web Monitor - '+ trigger.name +' - '+ url,
-                    expression: '{'+ host.host +':'+ item.key_ +'.last(0)}=('+ trigger.value +')',
-                    url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=123',
-                    status: 0,
-                    priority: trigger.priority,
-                    type: 0
-                }
-            }
-            
-            console.log('item: ', zbx_item);
-            _.each(triggers, function(trigger) {
-                console.log('trigger: ', buildTrigger(trigger, zbx_item, url));
-            });
-            return;
-            
-            
             // waterfall execution
             var actions = [
                 function(cb) {
@@ -277,7 +249,7 @@
                                 cb(err);
                             } else {
                                 $('#results').append('done</br>');
-                                cb(null, resp.result.applicationids)
+                                cb(null, resp.result.applicationids[0])
                             }
                         });
                     }
@@ -286,7 +258,7 @@
                     $('#results').append('application id: '+ appid +'...</br>');
                     $('#results').append('Searching for existing DWM item: ... ');
                     window.zabbix.call('item.get', {
-                        hostids: host.hostid,
+                        hostids: [ host.hostid ],
                         filter: {key_: zbx_item.key_},
                         output: 'shorten'
                     }, function(err, resp) {
@@ -308,13 +280,13 @@
                         cb(null, itemid, appid);
                     } else {
                         $('#results').append('Creating new DWM item: ... ');
-                        zbx_item.applications = appid
+                        zbx_item.applications = [ appid ]
                         window.zabbix.call('item.create', zbx_item, function(err, resp) {
                             if (err) {
                                 cb(err);
                             } else {
                                 $('#results').append('done</br>');
-                                cb(null, resp.result[0].itemid, appid);
+                                cb(null, resp.result.itemids, appid);
                             }
                         });
                     }
@@ -325,7 +297,60 @@
                 }
             ];
             
+            var buildTriggerAction = function(trigger) {
+                return function(cb) {
+                    var zbx_trigger = {
+                        description: 'Distributed Web Monitor - '+ trigger.name +' - '+ url,
+                        expression: '{'+ host.host +':'+ zbx_item.key_ +'.last(0)}=('+ trigger.value +')',
+                        url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=123',
+                        status: 0,
+                        priority: trigger.priority,
+                        type: 0
+                    };
+                    
+                    $('#results').append('Checking for existing trigger for "'+ trigger.name +'": ... ');
+                    window.zabbix.call('trigger.get', {
+                        hostids: [ host.hostid ],
+                        filter: {description: [zbx_trigger.description]},
+                        output: 'shorten'
+                    }, function(err, resp) {
+                        if (err) {
+                            cb(err);
+                        } else {
+                            if (_.isEmpty(resp.result)) {
+                                $('#results').append('missing</br>');
+                                $('#results').append('Creating new trigger for "'+ trigger.name +'": ... ');
+                                window.zabbix.call('trigger.create', zbx_trigger, function(err, resp) {
+                                    if (err) {
+                                        cb(err);
+                                    } else {
+                                        $('#results').append('done</br>');
+                                        cb(null);
+                                    }
+                                })
+                            } else {
+                                $('#results').append('existing</br>');
+                                cb(null);
+                            }
+                        }
+                    });
+                }
+            }
             
+            // list all triggers to apply
+            var triggers = [
+                { name: 'Other error',      value: '-1',  priority: 0 },
+                { name: 'Bad URL',          value: '-5',  priority: 0 },
+                { name: 'Bad DNS',          value: '-10', priority: 0 },
+                { name: 'Connection issue', value: '-20', priority: 0 },
+                { name: 'Timeout',          value: '-30', priority: 0 },
+                { name: 'Bad return code',  value: '-40', priority: 0 },
+                { name: 'Bad text',         value: '-50', priority: 0 },
+            ];
+            // iterate through triggers' list and append to actions to run
+            _.each(triggers, function(trigger) {
+                actions.push(buildTriggerAction(trigger));
+            });
             
             async.waterfall(actions, function(err, result) {
                 if (err) {
