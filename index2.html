@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <title>NC Zabbix</title>
+        <script language="javascript" src="js/vendors/async.js" type="text/javascript"></script>
+        <script language="javascript" src="js/vendors/jquery.min.js" type="text/javascript"></script>
+        <script language="javascript" src="js/vendors/underscore.min.js" type="text/javascript"></script>
+        <script language="javascript" src="js/vendors/backbone.min.js" type="text/javascript"></script>
+
+        <script language="javascript" src="js/zabbix.js" type="text/javascript"></script>
+
+    </head>
+    <body>
+        <script name='layout' type='text/html'>
+            <div id='content'></div>
+            <div id='error'></div>
+        </script>
+        <script name='login' type='text/html'>
+            <input id='user' placeholder='Your Zabbix user'/>
+            <input id='pass' type='password' placeholder='Your Zabbix password'/>
+            <input type='button' name='login' value='login' />
+        </script>
+        <script name='main' type='text/html'>
+            <input type='button' id='add_dwm' value='Add Distributed Web Monitoring' />
+            <input type='button' id='add_haproxy' value='Add HaProxy monitoring' />
+        </script>
+        <script name='select_host' type='text/html'>
+            <select id='groups'></select>
+            <select id='hosts'></select>
+        </script>
+        <script name='distributedWebMonitoring' type='text/html'>
+            <div class='item'>
+                <label for='webnode'>Web check source</label>
+                <select name='webnode' id='webnode'>
+                    <option value=''> -- select source -- </option>
+                    <option value='china'>China - Shanghai</option>
+                    <option value='bj'>China - BeiJing</option>
+                    <option value='hk'>World - HongKong</option>
+                </select>
+                <input type='button' id='update_profile' value='Update' />
+                Note, if you update the source it will reflect to all DWM checks applied to this host.
+            </div>
+            <div class='item'>
+                <label for='dwm_url'>Url</label>
+                <input type='text' placeholder='http://example.com' id='dwm_url' name='dwm_url' value=''>
+                <a href='' target='_blank'></a>
+            </div>
+            <div class='item'>
+                <label for='dwm_timeout'>Timeout (in sec)</label>
+                <input type='text' placeholder='30' id='dwm_timeout' name='dwm_timeout' value=''>
+            </div>
+            <div class='item'>
+                <label for='dwm_text'>Matching text</label>
+                <input type='text' placeholder='some text to match' id='dwm_text' name='dwm_text' value=''>
+            </div>
+            <div class='item'>
+                <label for='dwm_code'>Return code</label>
+                <input type='text' placeholder='200' id='dwm_code' name='dwm_code' value=''>
+            </div>
+            <div class='item'>
+                <label for='dwm_frequency'>Frequency (in sec)</label>
+                <input type='text' placeholder='120' id='dwm_frequency' name='dwm_frequency' value=''>
+            </div>
+            <input type='button' id='create_dwm' value='Create Distributed Web Monitoring' />
+        </script>
+        <script name='haproxy' type='text/html'></script>
+        
+        <script language="javascript" src="js/init.js" type="text/javascript"></script>
+
+        <script language="javascript" src="js/views/login.js" type="text/javascript"></script>
+        <script language="javascript" src="js/views/main.js" type="text/javascript"></script>
+        <script language="javascript" src="js/views/haproxy.js" type="text/javascript"></script>
+        <script language="javascript" src="js/views/distributedWebMonitoring.js" type="text/javascript"></script>
+        <script language="javascript" src="js/views/tasks.js" type="text/javascript"></script>
+        <script language="javascript" src="js/views/error.js" type="text/javascript"></script>
+
+        <script language="javascript" src="js/routers/router.js" type="text/javascript"></script>
+    </body>
+</html>
