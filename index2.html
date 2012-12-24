@@ -19,7 +19,7 @@
         </div>
         <div id='overlay'></div>
         <script name='layout' type='text/html'>
-            <header></header>
+            <header id='header'></header>
             <section id='sidebar'></section>
             <section id='content'></section>
             <section id='error'></section>        
@@ -69,17 +69,19 @@
         </script>
         <script name='distributedWebMonitoring' type='text/html'>
             <section>
-                <div class='item'>
-                    <label for='webnode'>Web check source</label>
-                    <select name='webnode' id='webnode'>
-                        <option value=''> -- select source -- </option>
-                        <option value='china'>China - Shanghai</option>
-                        <option value='bj'>China - BeiJing</option>
-                        <option value='hk'>World - HongKong</option>
-                    </select>
-                    <input type='button' id='update_profile' value='Update' />
-                    Note, if you update the source it will reflect to all DWM checks applied to this host.
-                </div>
+                <fieldset>
+                    <div class='field'>
+                        <label for='webnode'>Web check source</label>
+                        <select name='webnode' id='webnode'>
+                            <option value=''> -- select source -- </option>
+                            <option value='china'>China - Shanghai</option>
+                            <option value='bj'>China - BeiJing</option>
+                            <option value='hk'>World - HongKong</option>
+                        </select>
+                    </div>
+                </fieldset>
+                <a class='button' id='update_profile' > Update </a>
+                <small class='description'><b>Note</b> if you update the source it will reflect to all DWM checks applied to this host.</small>
             </section>
             <section>
                 <fieldset>
