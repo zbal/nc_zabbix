@@ -53,7 +53,7 @@
             if (_.isEmpty(group_id) || _.isEmpty(host_id)) {
                 new views.Error({msg: 'Select group / host first'}).render();
             } else {
-                new views.distributedWebMonitoring().render();
+                new views.DistributedWebMonitoring().render();
             }
         },
         haProxy: function () {
@@ -63,7 +63,7 @@
             if (_.isEmpty(group_id) || _.isEmpty(host_id)) {
                 new views.Error({msg: 'Select group / host first'}).render();
             } else {
-                new views.haProxy().render();
+                new views.HaProxy().render();
             }
         },
         render: function () {
