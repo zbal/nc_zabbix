@@ -5,7 +5,8 @@
         events: {
             'click #add_dwm': 'distributedWebMonitoring',
             'click #add_haproxy': 'haProxy',
-            'change #groups': 'getHosts'
+            'change #groups': 'getHosts',
+            'change #hosts': 'updateActionHref'
         },
         initialize: function() {
             this.getGroups();
@@ -43,6 +44,17 @@
                     _.each(resp.result, function(item) {
                         $('#hosts').append('<option value="'+ item.hostid +'">'+ item.host +'</option>');
                     });
+                }
+            });
+        },
+        updateActionHref: function() {
+            var hostId = $('#hosts').val();
+            $('#sidebar a').each(function(index) {
+                if ($(this).attr('id') === 'add_dwm') {
+                    $(this).attr('href', '/distributed-web-monitoring/'+ hostId);
+                }
+                if ($(this).attr('id') === 'add_haproxy') {
+                    $(this).attr('href', '/haproxy/'+ hostId);
                 }
             });
         },
