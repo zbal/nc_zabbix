@@ -4,8 +4,6 @@
         
         el: $('#content'),
         events: {
-            'change #groups': 'getHosts',
-            'change #hosts': 'showActions',
             'click #get_dwm': 'getDWM',
             'click #create_dwm': 'addDWM',
             'keyup #dwm_url': 'updateUrl',
