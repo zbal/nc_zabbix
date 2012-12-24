@@ -24,6 +24,7 @@
                 }
             });
             
+            return this;
         },
         updateUrl: function(target) {
             // simply display the URL as a link when being entered to ensure it exists !

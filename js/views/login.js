@@ -3,7 +3,7 @@
     var zbx_url = '/api_jsonrpc.php';
 
     views.Login = Backbone.View.extend({
-        el: $('#content'),
+        el: $('#login'),
         events: {
             'click input[name=login]': 'login'
         },
