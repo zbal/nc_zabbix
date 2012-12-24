@@ -5,7 +5,7 @@
     views.Login = Backbone.View.extend({
         el: $('#login'),
         events: {
-            'click input[name=login]': 'login'
+            'click a': 'login'
         },
         initialize: function() {
             
@@ -19,7 +19,7 @@
             // TODO : rely on session
             var view = this;
             var user = $('#user').val();
-            var pass = $('#pass').val();
+            var pass = $('#password').val();
             
             if (user && pass) {
                 window.zabbix = new Zabbix(zbx_url, user, pass);

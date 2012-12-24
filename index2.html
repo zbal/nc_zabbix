@@ -14,7 +14,7 @@
     </head>
     <body>
         <div id='wrapper'>
-            <div id='login'></div>
+            <section id='login'></section>
             <div id='error'></div>
         </div>
         <div id='overlay'></div>
@@ -25,9 +25,20 @@
             <section id='error'></section>        
         </script>
         <script name='login' type='text/html'>
-            <input id='user' placeholder='Your Zabbix user'/>
-            <input id='pass' type='password' placeholder='Your Zabbix password'/>
-            <input type='button' name='login' value='login' />
+            <header>
+                <h1>Log-in your Zabbix account</h1>
+            </header>
+            <div class='field user'>
+              <label for="user">Email</label>
+              <input type="text" value="" name="user" id="user" placeholder="Username" />
+            </div>
+            <div class='field password'>
+              <label for="password">Password</label>
+              <input type="password" value="" name="password" id="password" placeholder="Password" />
+            </div>
+            <div class='field controls'>
+              <a href='./index.html' class='primary button'>Log in</a>
+            </div>
         </script>
         <script name='content' type='text/html'>
             <div class=''>Start by selecting a host.</div>
