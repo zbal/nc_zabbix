@@ -25,9 +25,7 @@
                 window.zabbix = new Zabbix(zbx_url, user, pass);
                 window.zabbix.authenticate(function(err, resp) {
                     if (err) {
-                        new views.Error({
-                            msg: err.data ? err.data : err.message
-                        }).render();
+                        new views.Error({msg: err.data ? err.data : err.message}).render();
                     } else {
                         // $('body').html(templates.layout());
                         routers = new routers.Router();
@@ -35,9 +33,7 @@
                     }
                 });
             } else {
-                new views.Error({
-                    msg: 'missing user / password info'
-                }).render();
+                new views.Error({msg: 'missing user / password info'}).render();
             }
         }
     });
