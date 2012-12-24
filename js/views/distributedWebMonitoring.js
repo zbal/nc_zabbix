@@ -13,6 +13,7 @@
             this.host = options.host;
         },
         render: function() {
+            console.log('in dwm');
             var view = this;
             this.$el.html(templates.distributedWebMonitoring());
 

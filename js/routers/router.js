@@ -1,4 +1,6 @@
 (function(models, views, routers, templates) {
+    
+    var content;
 
     routers.Router = Backbone.Router.extend({
         routes: {
@@ -8,6 +10,7 @@
         },
         
         main: function () {
+            if (content) content.undelegateEvents();
             new views.Main().render();
         },
         
@@ -20,13 +23,25 @@
                 if (err) {
                     new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
-                    new views.DistributedWebMonitoring({host: resp.result}).render();
+                    if (content) content.undelegateEvents();
+                    content = new views.DistributedWebMonitoring({host: resp.result}).render();
                 }
             });
         },
         
         haproxy: function(host) {
-            new views.Haproxy().render();
+            window.zabbix.call('host.get', {
+                output: 'extend',
+                hostids: [ host ],
+                select_profile: 'extend'
+            }, function(err, resp) {
+                if (err) {
+                    new views.Error({msg: err.data ? err.data : err.message}).render();
+                } else {
+                    if (content) content.undelegateEvents();
+                    content = new views.Haproxy({host: resp.result}).render();
+                }
+            });
         }
     });
     
