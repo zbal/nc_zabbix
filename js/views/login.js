@@ -3,7 +3,7 @@
     var zbx_url = '/api_jsonrpc.php';
 
     views.Login = Backbone.View.extend({
-        el: $('body'),
+        el: $('#login'),
         events: {
             'click input[name=login]': 'login'
         },
@@ -25,7 +25,9 @@
                 window.zabbix = new Zabbix(zbx_url, user, pass);
                 window.zabbix.authenticate(function(err, resp) {
                     if (err) {
-                        $('#error').html(err.data ? err.data : err.message);
+                        new views.Error({
+                            msg: err.data ? err.data : err.message
+                        }).render();
                     } else {
                         that.$el.html(templates.layout());
                         routers = new routers.Router();
@@ -33,7 +35,9 @@
                     }
                 });
             } else {
-                $('#error').html('missing user / password info');
+                new views.Error({
+                    msg: 'missing user / password info'
+                }).render();
             }
         }
     });
