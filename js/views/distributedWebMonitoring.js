@@ -9,11 +9,11 @@
             'keyup #dwm_url': 'updateUrl',
             'click #update_profile': 'updateProfile'
         },
-        initialize: function() {
-            
+        initialize: function(options) {
+            this.host = options.host;
         },
         render: function() {
-            this.$el.html(template.distributedWebMonitoring());
+            this.$el.html(templates.distributedWebMonitoring());
         },
         updateUrl: function(target) {
             // simply display the URL as a link when being entered to ensure it exists !
@@ -32,9 +32,7 @@
                 application: 'Distributed Web Monitoring'
             }, function(err, resp) {
                 if (err) {
-                    new views.Error({
-                        msg: err.data ? err.data : err.message
-                    }).render();
+                    new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
                     $('#error').empty();
                     $('#results').empty();
@@ -81,9 +79,7 @@
                 profile: view.host.profile
             }, function(err, resp) {
                 if (err) {
-                    new views.Error({
-                        msg: err.data ? err.data : err.message
-                    }).render();
+                    new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
                     $('#error').empty();
                     $('#results').empty();

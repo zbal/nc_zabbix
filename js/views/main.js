@@ -47,23 +47,31 @@
             });
         },
         distributedWebMonitoring: function () {
-            var group_id = $('#groups').val(),
-                host_id = $('#hosts').val();
+            var groupId = $('#groups').val(),
+                hostId = $('#hosts').val();
                 
-            if (_.isEmpty(group_id) || _.isEmpty(host_id)) {
+            var host = _.filter(this.hosts, function(host) {
+                return host.hostid === hostId;
+            })[0];
+            
+            if (_.isEmpty(groupId) || _.isEmpty(hostId)) {
                 new views.Error({msg: 'Select group / host first'}).render();
             } else {
-                new views.DistributedWebMonitoring().render();
+                new views.DistributedWebMonitoring({host: host}).render();
             }
         },
         haProxy: function () {
-            var group_id = $('#groups').val(),
-                host_id = $('#hosts').val();
+            var groupId = $('#groups').val(),
+                hostId = $('#hosts').val();
                 
-            if (_.isEmpty(group_id) || _.isEmpty(host_id)) {
+            var host = _.filter(this.hosts, function(host) {
+                return host.hostid === hostId;
+            })[0];
+            
+            if (_.isEmpty(groupId) || _.isEmpty(hostId)) {
                 new views.Error({msg: 'Select group / host first'}).render();
             } else {
-                new views.HaProxy().render();
+                new views.HaProxy({host: host}).render();
             }
         },
         render: function () {
