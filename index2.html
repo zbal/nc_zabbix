@@ -28,17 +28,19 @@
             <header>
                 <h1>Log-in your Zabbix account</h1>
             </header>
-            <div class='field user'>
-              <label for="user">Email</label>
-              <input type="text" value="" name="user" id="user" placeholder="Username" />
-            </div>
-            <div class='field password'>
-              <label for="password">Password</label>
-              <input type="password" value="" name="password" id="password" placeholder="Password" />
-            </div>
-            <div class='field controls'>
-              <a href='./index.html' class='primary button'>Log in</a>
-            </div>
+            <form method="POST" action="/">
+                <div class='field user'>
+                    <label for="user">Email</label>
+                    <input type="text" value="" name="user" id="user" placeholder="Username" />
+                </div>
+                <div class='field password'>
+                    <label for="password">Password</label>
+                    <input type="password" value="" name="password" id="password" placeholder="Password" />
+                </div>
+                <div class='field controls'>
+                    <a href='#' class='primary button'>Log in</a>
+                </div>
+            </form>
         </script>
         <script name='content' type='text/html'>
             <div class=''>Start by selecting a host.</div>
