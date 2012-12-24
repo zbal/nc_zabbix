@@ -127,11 +127,11 @@ textarea:focus {
   padding: 20px;
 }
 
-#header.title {
+#header .title {
   float: left;
 }
 
-#header.host {
+#header .host {
   float: right;
 }
 

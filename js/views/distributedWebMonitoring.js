@@ -2,7 +2,7 @@
 
     views.DistributedWebMonitoring = Backbone.View.extend({
         
-        el: $('#content'),
+        el: '#content',
         events: {
             'click #get_dwm': 'getDWM',
             'click #create_dwm': 'addDWM',
@@ -15,8 +15,7 @@
         },
         render: function() {
             var view = this;
-            // this.$el.html(templates.distributedWebMonitoring());
-            $('#content').html(templates.distributedWebMonitoring());
+            this.$el.html(templates.distributedWebMonitoring());
 
             $('#webnode option:selected').removeAttr('selected');
             $('#webnode option').each(function(index) {

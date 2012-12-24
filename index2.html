@@ -68,39 +68,47 @@
             </nav>
         </script>
         <script name='distributedWebMonitoring' type='text/html'>
-            <div class='item'>
-                <label for='webnode'>Web check source</label>
-                <select name='webnode' id='webnode'>
-                    <option value=''> -- select source -- </option>
-                    <option value='china'>China - Shanghai</option>
-                    <option value='bj'>China - BeiJing</option>
-                    <option value='hk'>World - HongKong</option>
-                </select>
-                <input type='button' id='update_profile' value='Update' />
-                Note, if you update the source it will reflect to all DWM checks applied to this host.
-            </div>
-            <div class='item'>
-                <label for='dwm_url'>Url</label>
-                <input type='text' placeholder='http://example.com' id='dwm_url' name='dwm_url' value=''>
-                <a href='' target='_blank'></a>
-            </div>
-            <div class='item'>
-                <label for='dwm_timeout'>Timeout (in sec)</label>
-                <input type='text' placeholder='30' id='dwm_timeout' name='dwm_timeout' value=''>
-            </div>
-            <div class='item'>
-                <label for='dwm_text'>Matching text</label>
-                <input type='text' placeholder='some text to match' id='dwm_text' name='dwm_text' value=''>
-            </div>
-            <div class='item'>
-                <label for='dwm_code'>Return code</label>
-                <input type='text' placeholder='200' id='dwm_code' name='dwm_code' value=''>
-            </div>
-            <div class='item'>
-                <label for='dwm_frequency'>Frequency (in sec)</label>
-                <input type='text' placeholder='120' id='dwm_frequency' name='dwm_frequency' value=''>
-            </div>
-            <input type='button' id='create_dwm' value='Create Distributed Web Monitoring' />
+            <section>
+                <div class='item'>
+                    <label for='webnode'>Web check source</label>
+                    <select name='webnode' id='webnode'>
+                        <option value=''> -- select source -- </option>
+                        <option value='china'>China - Shanghai</option>
+                        <option value='bj'>China - BeiJing</option>
+                        <option value='hk'>World - HongKong</option>
+                    </select>
+                    <input type='button' id='update_profile' value='Update' />
+                    Note, if you update the source it will reflect to all DWM checks applied to this host.
+                </div>
+            </section>
+            <section>
+                <fieldset>
+                    <div class='field'>
+                        <label for='dwm_url'>Url</label>
+                        <input type='text' placeholder='http://example.com' id='dwm_url' name='dwm_url' value=''>
+                        <a href='' target='_blank'></a>
+                    </div>
+                    <div class='field'>
+                        <label for='dwm_timeout'>Timeout (in sec)</label>
+                        <input type='text' placeholder='30' id='dwm_timeout' name='dwm_timeout' value=''>
+                    </div>
+                    <div class='field'>
+                        <label for='dwm_text'>Matching text</label>
+                        <input type='text' placeholder='some text to match' id='dwm_text' name='dwm_text' value=''>
+                    </div>
+                    <div class='field'>
+                        <label for='dwm_code'>Return code</label>
+                        <input type='text' placeholder='200' id='dwm_code' name='dwm_code' value=''>
+                    </div>
+                    <div class='field'>
+                        <label for='dwm_frequency'>Frequency (in sec)</label>
+                        <input type='text' placeholder='120' id='dwm_frequency' name='dwm_frequency' value=''>
+                    </div>
+                </fieldset>
+            </section>
+            <footer>
+              <a class='button primary' id='create_dwm'>Create Distributed Web Monitoring</a>
+            </footer>
             <div id='results'></div>
         </script>
         <script name='haproxy' type='text/html'></script>
