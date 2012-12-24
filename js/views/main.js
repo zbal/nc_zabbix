@@ -75,8 +75,8 @@
             }
         },
         render: function () {
-            $('#header').html(templates.hosts());
-            $('#pane').html(templates.actions());
+            $('#header').html(templates.header());
+            $('#pane').html(templates.pane());
             $('#content').html(templates.content());
             $('#login').empty();
             return this;
