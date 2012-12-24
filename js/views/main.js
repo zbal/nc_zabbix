@@ -3,7 +3,8 @@
     views.Main = Backbone.View.extend({
         el: '#content',
         events: {
-            
+            'click #add_dwm': 'distributedWebMonitoring',
+            'click #add_haproxy': 'haProxy'
         },
         distributedWebMonitoring: function () {
             new views.distributedWebMonitoring().render();

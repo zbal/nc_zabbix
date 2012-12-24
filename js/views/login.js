@@ -3,7 +3,7 @@
     var zbx_url = '/api_jsonrpc.php';
 
     views.Login = Backbone.View.extend({
-        el: $('#login'),
+        el: $('#content'),
         events: {
             'click input[name=login]': 'login'
         },
@@ -29,7 +29,7 @@
                             msg: err.data ? err.data : err.message
                         }).render();
                     } else {
-                        that.$el.html(templates.layout());
+                        // $('body').html(templates.layout());
                         routers = new routers.Router();
                         Backbone.history && Backbone.history.start();
                     }

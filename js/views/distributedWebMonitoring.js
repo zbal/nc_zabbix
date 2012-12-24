@@ -2,15 +2,20 @@
 
     views.DistributedWebMonitoring = Backbone.View.extend({
         
-        el: $('body'),
+        el: $('#content'),
         events: {
-            
+            'change #groups': 'getHosts',
+            'change #hosts': 'showActions',
+            'click #get_dwm': 'getDWM',
+            'click #create_dwm': 'addDWM',
+            'keyup #dwm_url': 'updateUrl',
+            'click #update_profile': 'updateProfile'
         },
         initialize: function() {
             
         },
         render: function() {
-            
+            this.$el.html(template.distributedWebMonitoring());
         },
 
         getDWM: function() {
@@ -23,7 +28,9 @@
                 application: 'Distributed Web Monitoring'
             }, function(err, resp) {
                 if (err) {
-                    $('#error').html(err.data ? err.data : err.message);
+                    new views.Error({
+                        msg: err.data ? err.data : err.message
+                    }).render();
                 } else {
                     $('#error').empty();
                     $('#results').empty();
@@ -70,7 +77,9 @@
                 profile: view.host.profile
             }, function(err, resp) {
                 if (err) {
-                    $('#error').html(err.data ? err.data : err.message);
+                    new views.Error({
+                        msg: err.data ? err.data : err.message
+                    }).render();
                 } else {
                     $('#error').empty();
                     $('#results').empty();
@@ -256,7 +265,9 @@
             
             async.waterfall(actions, function(err, result) {
                 if (err) {
-                    $('#error').html(err.data ? err.data : err.message);
+                    new views.Error({
+                        msg: err.data ? err.data : err.message
+                    }).render();
                 }
             });
         }

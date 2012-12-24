@@ -11,24 +11,20 @@
 
     </head>
     <body>
+        <div id='content'></div>
         <div id='error'></div>
-        <div id='login'></div>
-        <script name='layout' type='text/html'>
-            <div id='content'></div>
-            <div id='error'></div>
-        </script>
         <script name='login' type='text/html'>
-            <input id='user' placeholder='Your Zabbix user'/>
-            <input id='pass' type='password' placeholder='Your Zabbix password'/>
-            <input type='button' name='login' value='login' />
+            <div id='login'>
+                <input id='user' placeholder='Your Zabbix user'/>
+                <input id='pass' type='password' placeholder='Your Zabbix password'/>
+                <input type='button' name='login' value='login' />
+            </div>
         </script>
         <script name='main' type='text/html'>
-            <input type='button' id='add_dwm' value='Add Distributed Web Monitoring' />
-            <input type='button' id='add_haproxy' value='Add HaProxy monitoring' />
-        </script>
-        <script name='select_host' type='text/html'>
             <select id='groups'></select>
             <select id='hosts'></select>
+            <input type='button' id='add_dwm' value='Add Distributed Web Monitoring' />
+            <input type='button' id='add_haproxy' value='Add HaProxy monitoring' />
         </script>
         <script name='distributedWebMonitoring' type='text/html'>
             <div class='item'>
