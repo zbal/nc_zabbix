@@ -197,7 +197,7 @@ textarea:focus {
 }
 
 #header a#logo {
-  background: url(../images/logo.png) no-repeat center center;
+  background: url(https://zabbix.service.chinanetcloud.com/images/general/zabbix.png) no-repeat center center;
   border: 0;
   display: block;
   float: left;
@@ -206,6 +206,9 @@ textarea:focus {
   width: 89px;
 }
 
+#header .title {
+    float: left;
+}
 
 /* Login */
 #login {
