@@ -354,3 +354,68 @@ article time {
   background: #fff;
 }
 
+a.button {
+  background: #e7ebef;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f9fafb), to(#e7ebef));
+  background: -moz-linear-gradient(top,  #f9fafb,  #e7ebef);
+  border: 1px solid #d5dee3;
+  border-color: #d5dee3 #c9d4db #c9d4db #d5dee3;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  box-shadow: 0 1px 0 #fdfdfd inset, 1px 1px 3px #e7ecef;
+  color: #3b4951;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 99%;
+  padding: 10px 14px 9px;
+  text-decoration: none;
+  text-shadow: 0 1px #fdfdfd;
+}
+a.button:hover {
+  box-shadow: 0 1px 0 #fff inset;
+  color: #111517;
+}
+a.button:active {
+  background: #e1e6eb;
+  background: -webkit-gradient(linear, left top, left bottom, from(#e7ebef), to(#edf0f3));
+  background: -moz-linear-gradient(top, #e7ebef,  #edf0f3);
+  box-shadow: 1px 1px 3px #bdc8d3 inset;
+  border-color: #bdcad3 #c9d4db #c9d4db #bdcad3;
+  color: #3b4951;
+  text-shadow: 0 1px #fdfdfd;
+}
+
+a.button:before {
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 99%;
+}
+
+a.button.primary {
+  background: #008cdd;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#05a3ff), to(#008cdd));
+  background-image: -moz-linear-gradient(top, #05a3ff, #008cdd);
+  border: 1px solid #008cdd;
+  border-color: #008cdd #007fc8 #007fc8 #008cdd;
+  box-shadow: 1px 1px 3px #cfdadf;
+  color: #fff;
+  margin: -1px;
+  text-shadow: -1px -1px #0078f0;
+}
+a.button.primary:hover {
+  background: #0098f0;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#19aaff), to(#0098f0));
+  background-image: -moz-linear-gradient(top, #19aaff, #0098f0);
+  box-shadow: none;
+  color: #fff;
+}
+a.button.primary:active {
+  background: #0098f0;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#008cdd), to(#0098f0));
+  background-image: -moz-linear-gradient(top, #008cdd, #0098f0);
+  box-shadow: 1px 1px 3px #0072b4 inset;
+  border-color: #0072b4 #007fc8 #007fc8 #0072b4;
+}
+
