@@ -24,7 +24,7 @@
                     new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
                     if (content) content.undelegateEvents();
-                    content = new views.DistributedWebMonitoring({host: resp.result}).render();
+                    content = new views.DistributedWebMonitoring({host: resp.result[0]}).render();
                 }
             });
         },
@@ -39,7 +39,7 @@
                     new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
                     if (content) content.undelegateEvents();
-                    content = new views.Haproxy({host: resp.result}).render();
+                    content = new views.Haproxy({host: resp.result[0]}).render();
                 }
             });
         }

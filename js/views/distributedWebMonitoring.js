@@ -10,12 +10,13 @@
             'click #update_profile': 'updateProfile'
         },
         initialize: function(options) {
+            _.bindAll(this, 'render');
             this.host = options.host;
         },
         render: function() {
             var view = this;
             this.$el.html(templates.distributedWebMonitoring());
-            $('#content').html(templates.distributedWebMonitoring());
+            // $('#content').html(templates.distributedWebMonitoring());
 
             $('#webnode option:selected').removeAttr('selected');
             $('#webnode option').each(function(index) {
