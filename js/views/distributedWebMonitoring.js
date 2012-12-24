@@ -13,7 +13,17 @@
             this.host = options.host;
         },
         render: function() {
+            var view = this;
             this.$el.html(templates.distributedWebMonitoring());
+
+            $('#webnode option:selected').removeAttr('selected');
+            $('#webnode option').each(function(index) {
+                if (view.host.profile.macaddress 
+                && $(this).val().toLowerCase() === view.host.profile.macaddress.toLowerCase()) {
+                    $(this).attr('selected', 'selected');
+                }
+            });
+            
         },
         updateUrl: function(target) {
             // simply display the URL as a link when being entered to ensure it exists !
@@ -27,7 +37,7 @@
             // TODO: display more info, such as triggers, etc.
             window.zabbix.call('item.get', {
                 output: 'extend',
-                hostids: $('#hosts').val(),
+                hostids: this.host.hostid,
                 monitored: 1,
                 application: 'Distributed Web Monitoring'
             }, function(err, resp) {
@@ -40,14 +50,6 @@
                         $('#results').append(item.description +' - '+ item.key_ +'<br/>');
                     });
                 }
-            });
-        },
-        displayDWM: function() {
-            var view = this;
-            $('#dwm').show();
-            $('#webnode option:selected').removeAttr('selected');
-            $('#webnode option').each(function(index) {
-                if (view.host.profile.macaddress && $(this).val().toLowerCase() === view.host.profile.macaddress.toLowerCase()) $(this).attr('selected', 'selected');
             });
         },
         updateProfile: function() {
@@ -75,7 +77,7 @@
             view.host.profile.macaddress = $('#webnode').val();
             
             window.zabbix.call('host.update', {
-                hostid: parseInt($('#hosts').val()),
+                hostid: parseInt(view.host.hostid),
                 profile: view.host.profile
             }, function(err, resp) {
                 if (err) {
