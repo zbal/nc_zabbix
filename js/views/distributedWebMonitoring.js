@@ -15,7 +15,13 @@
         render: function() {
             this.$el.html(template.distributedWebMonitoring());
         },
-
+        updateUrl: function(target) {
+            // simply display the URL as a link when being entered to ensure it exists !
+            var url = $('#dwm_url').val();
+            if (url.search(/^http(|s):\/\//) === -1) url = 'http://'+ url;
+            $('#dwm_url').parent().find('a').attr('href', url);
+            $('#dwm_url').parent().find('a').html(url);
+        },
         getDWM: function() {
             // fetch existing Distributed Web Monitoring info for that host
             // TODO: display more info, such as triggers, etc.
