@@ -20,7 +20,7 @@
         <div id='overlay'></div>
         <script name='layout' type='text/html'>
             <header></header>
-            <section id='pane'></section>
+            <section id='sidebar'></section>
             <section id='content'></section>
             <section id='error'></section>        
         </script>
@@ -54,9 +54,18 @@
                 <select id='hosts'></select>
             </div>
         </script>
-        <script name='pane' type='text/html'>
-            <input type='button' id='add_dwm' value='Add Distributed Web Monitoring' />
-            <input type='button' id='add_haproxy' value='Add HaProxy monitoring' />
+        <script name='sidebar' type='text/html'>
+            <nav>
+              <header>
+                <h1 class='actions'>Actions</h1>
+              </header>
+              <a href='#' id='add_dwm' class=''>
+                <h2>Add Distributed Web Monitoring</h2>
+              </a>
+              <a href='#' id='add_haproxy' class=''>
+                <h2>Add HaProxy monitoring</h2>
+              </a>
+            </nav>
         </script>
         <script name='distributedWebMonitoring' type='text/html'>
             <div class='item'>

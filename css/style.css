@@ -296,3 +296,61 @@ article time {
 #pager {
   margin: 0;
 }
+
+/* Sidebar */
+#sidebar {
+  background: #f3f5f7;
+  border-right: 1px solid #e1e8eb;
+  float: left;
+  height: 600px;
+  overflow: auto;
+  width: 240px;
+}
+
+#sidebar nav > a,
+#sidebar header {
+  background: transparent;
+  border-bottom: 1px solid #d5dee3;
+  box-shadow: 0 1px 0 #fdfdfd inset;
+  color: #2a343a;
+  display: block;
+  padding: 15px 20px;
+  text-decoration: none;
+}
+#sidebar nav > a:hover {
+  background: #fff;
+}
+#sidebar nav > a:active,
+#sidebar nav > a.active {
+  background: #e1e6eb;
+  background: -webkit-gradient(linear, left top, left bottom, from(#edf0f3), to(#e1e6eb));
+  background: -moz-linear-gradient(top,  #edf0f3,  #e1e6eb);
+  box-shadow: 1px 1px 3px #bdc8d3 inset;
+}
+
+#sidebar nav > a h2 {
+  font-size: 14px;
+  margin: 0;
+}
+
+#sidebar header {
+  background: -webkit-gradient(linear, left top, left bottom, from(#f3f5f7), to(#edf0f3));
+  background: -moz-linear-gradient(top,  #f3f5f7,  #edf0f3);
+  padding: 10px 15px;
+}
+
+#sidebar header input {
+  background: #e1e6eb;
+  border: 0;
+  border-radius: 15px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  box-shadow: 0 1px 0 #fdfdfd, 1px 1px 3px #a5b4c3 inset;
+  padding: 3px 10px;
+  width: 120px;
+}
+#sidebar header input:active,
+#sidebar header input:focus {
+  background: #fff;
+}
+

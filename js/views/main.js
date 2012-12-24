@@ -76,8 +76,8 @@
         },
         render: function () {
             this.$el.html(templates.layout());
-            $('#header').html(templates.header());
-            $('#pane').html(templates.pane());
+            $('#wrapper header').html(templates.header());
+            $('#sidebar').html(templates.sidebar());
             $('#content').html(templates.content());
             return this;
         }

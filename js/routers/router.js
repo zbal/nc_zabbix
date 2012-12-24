@@ -3,8 +3,8 @@
     routers.Router = Backbone.Router.extend({
         routes: {
             '': 'main',
-            'distributed-web-monitoring': 'dwm',
-            'haproxy': 'haproxy'
+            'distributed-web-monitoring/:host': 'dwm',
+            'haproxy/:host': 'haproxy'
         },
         
         main: function () {
