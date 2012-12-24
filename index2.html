@@ -8,6 +8,8 @@
         <script language="javascript" src="js/vendors/backbone.min.js" type="text/javascript"></script>
 
         <script language="javascript" src="js/zabbix.js" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="css/reset.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
 
     </head>
     <body>
@@ -24,9 +26,14 @@
         <script name='content' type='text/html'>
             <div class=''>Start by selecting a host.</div>
         </script>
-        <script name='hosts' type='text/html'>
-            <select id='groups'></select>
-            <select id='hosts'></select>
+        <script name='header' type='text/html'>
+            <div class='title'>
+                NetCloud - Zabbix helper
+            </div>
+            <div class='host'>
+                <select id='groups'></select>
+                <select id='hosts'></select>
+            </div>
         </script>
         <script name='actions' type='text/html'>
             <input type='button' id='add_dwm' value='Add Distributed Web Monitoring' />
