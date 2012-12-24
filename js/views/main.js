@@ -51,10 +51,10 @@
             var hostId = $('#hosts').val();
             $('#sidebar a').each(function(index) {
                 if ($(this).attr('id') === 'add_dwm') {
-                    $(this).attr('href', '/distributed-web-monitoring/'+ hostId);
+                    $(this).attr('href', 'distributed-web-monitoring/'+ hostId);
                 }
                 if ($(this).attr('id') === 'add_haproxy') {
-                    $(this).attr('href', '/haproxy/'+ hostId);
+                    $(this).attr('href', 'haproxy/'+ hostId);
                 }
             });
         },
