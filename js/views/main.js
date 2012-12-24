@@ -3,8 +3,6 @@
     views.Main = Backbone.View.extend({
         el: '#wrapper',
         events: {
-            'click #add_dwm': 'distributedWebMonitoring',
-            'click #add_haproxy': 'haProxy',
             'change #groups': 'getHosts',
             'change #hosts': 'updateActionHref'
         },
@@ -57,34 +55,6 @@
                     $(this).attr('href', '#haproxy/'+ hostId);
                 }
             });
-        },
-        distributedWebMonitoring: function () {
-            var groupId = $('#groups').val(),
-                hostId = $('#hosts').val();
-                
-            var host = _.filter(this.hosts, function(host) {
-                return host.hostid === hostId;
-            })[0];
-            
-            if (_.isEmpty(groupId) || _.isEmpty(hostId)) {
-                new views.Error({msg: 'Select group / host first'}).render();
-            } else {
-                new views.DistributedWebMonitoring({host: host}).render();
-            }
-        },
-        haProxy: function () {
-            var groupId = $('#groups').val(),
-                hostId = $('#hosts').val();
-                
-            var host = _.filter(this.hosts, function(host) {
-                return host.hostid === hostId;
-            })[0];
-            
-            if (_.isEmpty(groupId) || _.isEmpty(hostId)) {
-                new views.Error({msg: 'Select group / host first'}).render();
-            } else {
-                new views.HaProxy({host: host}).render();
-            }
         },
         render: function () {
             this.$el.html(templates.layout());

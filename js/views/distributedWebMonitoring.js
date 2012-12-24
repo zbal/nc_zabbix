@@ -13,9 +13,9 @@
             this.host = options.host;
         },
         render: function() {
-            console.log('in dwm');
             var view = this;
             this.$el.html(templates.distributedWebMonitoring());
+            $('#content').html(templates.distributedWebMonitoring());
 
             $('#webnode option:selected').removeAttr('selected');
             $('#webnode option').each(function(index) {
