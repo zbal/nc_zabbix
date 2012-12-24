@@ -5,8 +5,10 @@
         events: {
             'click #add_dwm': 'distributedWebMonitoring',
             'click #add_haproxy': 'haProxy',
-            'change #groups': 'getHosts',
-            'change #hosts': 'showActions',
+            'change #groups': 'getHosts'
+        },
+        initialize: function() {
+            this.getGroups();
         },
         getGroups: function() {
             // fetch groups, then populate the #groups select
