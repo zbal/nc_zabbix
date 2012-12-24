@@ -1,7 +1,7 @@
 (function(models, views, routers, templates) {
 
     views.Main = Backbone.View.extend({
-        el: 'body',
+        el: '#wrapper',
         events: {
             'click #add_dwm': 'distributedWebMonitoring',
             'click #add_haproxy': 'haProxy',
@@ -75,10 +75,10 @@
             }
         },
         render: function () {
+            this.$el.html(templates.layout());
             $('#header').html(templates.header());
             $('#pane').html(templates.pane());
             $('#content').html(templates.content());
-            $('#login').empty();
             return this;
         }
     });

@@ -13,11 +13,17 @@
 
     </head>
     <body>
-        <div id='header'></div>
-        <div id='pane'></div>
-        <div id='content'></div>
-        <div id='login'></div>
-        <div id='error'></div>
+        <div id='wrapper'>
+            <div id='login'></div>
+            <div id='error'></div>
+        </div>
+        <div id='overlay'></div>
+        <script name='layout' type='text/html'>
+            <header></header>
+            <section id='pane'></section>
+            <section id='content'></section>
+            <section id='error'></section>        
+        </script>
         <script name='login' type='text/html'>
             <input id='user' placeholder='Your Zabbix user'/>
             <input id='pass' type='password' placeholder='Your Zabbix password'/>
