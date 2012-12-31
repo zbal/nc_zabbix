@@ -23,7 +23,7 @@
             $.ajax({
                 url: url, 
                 beforeSend: function(xhr) {
-                    xhr.setRequestHeader("Authorization", "Basic " + Base64.encode(user + ":" + pass))
+                    xhr.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + pass))
                 }
             }, function(err, resp) {
                 console.log(resp);
