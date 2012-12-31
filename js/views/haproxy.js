@@ -20,8 +20,11 @@
             
             // Fetch the CSV from the URl
             url = url +';csv;norefresh';
-            $.ajax(url, beforeSend: function(xhr) {
-                xhr.setRequestHeader("Authorization", "Basic " + Base64.encode(user + ":" + pass))
+            $.ajax({
+                url: url, 
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Authorization", "Basic " + Base64.encode(user + ":" + pass))
+                }
             }, function(err, resp) {
                 console.log(resp);
             });
