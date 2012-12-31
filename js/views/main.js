@@ -40,7 +40,7 @@
                 } else {
                     view.hosts = resp.result;
                     $('#hosts').html('<option value=""> -- Select an host -- </option>');
-                    var sorted = _.sortBy(resp.result, function(item) { return item.name; });
+                    var sorted = _.sortBy(resp.result, function(item) { return item.host; });
                     _.each(sorted, function(item) {
                         $('#hosts').append('<option value="'+ item.hostid +'">'+ item.host +'</option>');
                     });
