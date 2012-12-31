@@ -116,10 +116,20 @@ textarea:focus {
 /* Header */
 #header {
   font-size: 13px;
-  position: relative;
+  position: fixed;
   text-align: right;
   text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
   z-index: 9999;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-top: 0;
+  border-radius: 0 0 5px 5px;
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  -moz-border-radius: 0 0 5px 5px;
+  -webkit-border-radius: 0 0 5px 5px;
+  width: 1020px;
 }
 
 #header input {
@@ -202,7 +212,6 @@ textarea:focus {
   display: block;
   float: left;
   text-indent: -999em;
-  height: 20px;
   width: 89px;
 }
 
@@ -300,6 +309,7 @@ h1 a {
 
 /* Content */
 #content {
+  margin-top: 65px;
   padding: 20px 40px 0 320px;
 }
 
@@ -374,6 +384,7 @@ article time {
 
 /* Sidebar */
 #sidebar {
+  margin-top: 65px;
   background: #f3f5f7;
   border-right: 1px solid #e1e8eb;
   float: left;
