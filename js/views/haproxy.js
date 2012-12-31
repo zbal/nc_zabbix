@@ -1,6 +1,6 @@
 (function(models, views, routers, templates) {
 
-    views.HaProxyAdd = Backbone.View.extend({
+    views.HaproxyAdd = Backbone.View.extend({
         
         el: '#content',
         events: {
@@ -29,7 +29,7 @@
         }
     }),
     
-    views.HaProxyList = Backbone.View.extend({
+    views.HaproxyList = Backbone.View.extend({
         
         el: '#content',
         events: {
