@@ -59,7 +59,7 @@
                     content = new views.HaproxyAdd({host: resp.result[0]}).render();
                 }
             });
-        }
+        },
         haproxyList: function(host) {
             window.zabbix.call('host.get', {
                 output: 'extend',
