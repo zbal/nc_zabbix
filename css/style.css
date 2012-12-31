@@ -116,7 +116,7 @@ textarea:focus {
 /* Header */
 #header {
   font-size: 13px;
-  position: fixed;
+  position: relative;
   text-align: right;
   text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
   z-index: 9999;
