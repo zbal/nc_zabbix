@@ -393,7 +393,8 @@ article time {
 }
 
 #sidebar nav > a,
-#sidebar header {
+#sidebar header,
+#sidebar h1 {
   background: transparent;
   border-bottom: 1px solid #d5dee3;
   box-shadow: 0 1px 0 #fdfdfd inset;
