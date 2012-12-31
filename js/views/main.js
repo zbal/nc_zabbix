@@ -20,7 +20,8 @@
                     new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
                     $('#groups').html('<option value=""> -- Select a group -- </option>');
-                    _.each(resp.result, function(item) {
+                    var sorted = _.sortBy(resp.result, function(item) { return item.name; });
+                    _.each(sorted, function(item) {
                         $('#groups').append('<option value="'+ item.groupid +'">'+ item.name +'</option>');
                     });
                 }
@@ -39,7 +40,8 @@
                 } else {
                     view.hosts = resp.result;
                     $('#hosts').html('<option value=""> -- Select an host -- </option>');
-                    _.each(resp.result, function(item) {
+                    var sorted = _.sortBy(resp.result, function(item) { return item.name; });
+                    _.each(sorted, function(item) {
                         $('#hosts').append('<option value="'+ item.hostid +'">'+ item.host +'</option>');
                     });
                 }
