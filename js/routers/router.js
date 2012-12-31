@@ -7,7 +7,7 @@
             '': 'main',
             'distributed-web-monitoring/:host/add': 'dwmAdd',
             'distributed-web-monitoring/:host/list': 'dwmList',
-            'haproxy/:host/add': 'haproxyAdd'
+            'haproxy/:host/add': 'haproxyAdd',
             'haproxy/:host/list': 'haproxyList'
         },
         
