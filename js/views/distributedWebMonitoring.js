@@ -302,6 +302,8 @@
         },
         render: function() {
             var view = this;
+            var host = view.host;
+            
             this.$el.html(templates.distributedWebMonitoringList());
 
             $('#webnode option:selected').removeAttr('selected');
