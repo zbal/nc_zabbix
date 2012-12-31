@@ -214,9 +214,20 @@
             
             var buildTriggerAction = function(trigger) {
                 return function(cb) {
+                    var expression = '';
+
+                    // handle ranges
+                    if (trigger.value) {
+                        expression = '{'+ host.host +':'+ zbx_item.key_ +'.last(0)}=('+ trigger.value +')';
+                    } else {
+                        expression = '{'+ host.host +':'+ zbx_item.key_ +'.last(0)}>('+ trigger.from +')'
+                            +' & '
+                            +'{'+ host.host +':'+ zbx_item.key_ +'.last(0)}<('+ trigger.to +')';
+                    }
+                    
                     var zbx_trigger = {
                         description: 'Distributed Web Monitor - '+ trigger.name +' - '+ url,
-                        expression: '{'+ host.host +':'+ zbx_item.key_ +'.last(0)}=('+ trigger.value +')',
+                        expression: expression,
                         url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=123',
                         status: 0,
                         priority: trigger.priority,
@@ -254,14 +265,17 @@
             
             // list all triggers to apply
             var triggers = [
-                { name: 'Other error',      value: '-1',  priority: 0 },
-                { name: 'Bad URL',          value: '-5',  priority: 0 },
-                { name: 'Bad DNS',          value: '-10', priority: 0 },
-                { name: 'Connection issue', value: '-20', priority: 0 },
-                { name: 'Timeout',          value: '-30', priority: 0 },
-                { name: 'Bad return code',  value: '-40', priority: 0 },
-                { name: 'Bad text',         value: '-50', priority: 0 },
+                { name: 'Other error',      value: '-1',  priority: 3 },
+                { name: 'Bad URL',          value: '-5',  priority: 3 },
+                { name: 'Bad DNS',          value: '-10', priority: 3 },
+                { name: 'Connection issue', value: '-20', priority: 4 },
+                { name: 'Timeout',          value: '-30', priority: 4 },
+                { name: 'Bad return code',  value: '-40', priority: 3 },
+                { name: 'Bad text',         value: '-50', priority: 3 },
+                { name: '4xx error', from: '-499', to: '-400'  priority: 3 },
+                { name: '5xx error', from: '-599', to: '-500'  priority: 5 }
             ];
+
             // iterate through triggers' list and append to actions to run
             _.each(triggers, function(trigger) {
                 actions.push(buildTriggerAction(trigger));
