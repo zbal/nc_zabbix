@@ -5,8 +5,10 @@
     routers.Router = Backbone.Router.extend({
         routes: {
             '': 'main',
-            'distributed-web-monitoring/:host': 'dwm',
-            'haproxy/:host': 'haproxy'
+            'distributed-web-monitoring/:host/add': 'dwmAdd',
+            'distributed-web-monitoring/:host/list': 'dwmList',
+            'haproxy/:host/add': 'haproxyAdd'
+            'haproxy/:host/list': 'haproxyList'
         },
         
         main: function () {
@@ -14,7 +16,7 @@
             new views.Main().render();
         },
         
-        dwm: function(host) {
+        dwmAdd: function(host) {
             window.zabbix.call('host.get', {
                 output: 'extend',
                 hostids: [ host ],
@@ -24,12 +26,11 @@
                     new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
                     if (content) content.undelegateEvents();
-                    content = new views.DistributedWebMonitoring({host: resp.result[0]}).render();
+                    content = new views.DistributedWebMonitoringAdd({host: resp.result[0]}).render();
                 }
             });
         },
-        
-        haproxy: function(host) {
+        dwmList: function(host) {
             window.zabbix.call('host.get', {
                 output: 'extend',
                 hostids: [ host ],
@@ -39,7 +40,37 @@
                     new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
                     if (content) content.undelegateEvents();
-                    content = new views.Haproxy({host: resp.result[0]}).render();
+                    content = new views.DistributedWebMonitoringList({host: resp.result[0]}).render();
+                }
+            });
+        },
+
+        
+        haproxyAdd: function(host) {
+            window.zabbix.call('host.get', {
+                output: 'extend',
+                hostids: [ host ],
+                select_profile: 'extend'
+            }, function(err, resp) {
+                if (err) {
+                    new views.Error({msg: err.data ? err.data : err.message}).render();
+                } else {
+                    if (content) content.undelegateEvents();
+                    content = new views.HaproxyAdd({host: resp.result[0]}).render();
+                }
+            });
+        }
+        haproxyList: function(host) {
+            window.zabbix.call('host.get', {
+                output: 'extend',
+                hostids: [ host ],
+                select_profile: 'extend'
+            }, function(err, resp) {
+                if (err) {
+                    new views.Error({msg: err.data ? err.data : err.message}).render();
+                } else {
+                    if (content) content.undelegateEvents();
+                    content = new views.HaproxyList({host: resp.result[0]}).render();
                 }
             });
         }

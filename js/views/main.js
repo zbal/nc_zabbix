@@ -51,10 +51,16 @@
             var hostId = $('#hosts').val();
             $('#sidebar a').each(function(index) {
                 if ($(this).attr('id') === 'add_dwm') {
-                    $(this).attr('href', '#distributed-web-monitoring/'+ hostId);
+                    $(this).attr('href', '#distributed-web-monitoring/'+ hostId +'/add');
+                }
+                if ($(this).attr('id') === 'list_dwm') {
+                    $(this).attr('href', '#distributed-web-monitoring/'+ hostId +'/list');
                 }
                 if ($(this).attr('id') === 'add_haproxy') {
-                    $(this).attr('href', '#haproxy/'+ hostId);
+                    $(this).attr('href', '#haproxy/'+ hostId +'/add');
+                }
+                if ($(this).attr('id') === 'list_haproxy') {
+                    $(this).attr('href', '#haproxy/'+ hostId +'/list');
                 }
             });
         },

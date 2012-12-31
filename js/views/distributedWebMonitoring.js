@@ -1,6 +1,6 @@
 (function(models, views, routers, templates) {
 
-    views.DistributedWebMonitoring = Backbone.View.extend({
+    views.DistributedWebMonitoringAdd = Backbone.View.extend({
         
         el: '#content',
         events: {
@@ -15,7 +15,7 @@
         },
         render: function() {
             var view = this;
-            this.$el.html(templates.distributedWebMonitoring());
+            this.$el.html(templates.distributedWebMonitoringAdd());
 
             $('#webnode option:selected').removeAttr('selected');
             $('#webnode option').each(function(index) {
@@ -288,6 +288,58 @@
                     }).render();
                 }
             });
+        }
+    });
+    
+    views.DistributedWebMonitoringList = Backbone.View.extend({
+        
+        el: '#content',
+        events: {
+        },
+        initialize: function(options) {
+            _.bindAll(this, 'render');
+            this.host = options.host;
+        },
+        render: function() {
+            var view = this;
+            this.$el.html(templates.distributedWebMonitoringList());
+
+            $('#webnode option:selected').removeAttr('selected');
+            $('#webnode option').each(function(index) {
+                if (view.host.profile.macaddress 
+                && $(this).val().toLowerCase() === view.host.profile.macaddress.toLowerCase()) {
+                    $(this).attr('selected', 'selected');
+                }
+            });
+            
+            // we fetch the items within the DWM application - not searching for nc.web items...
+            window.zabbix.call('application.get', {
+                hostids: host.hostid,
+                filter: {name: 'Distributed Web Monitoring'},
+                output: 'shorten'
+            }, function(err, resp) {
+                if (err) return;
+                if (_.isEmpty(resp.result)) {
+                    $('#results').append('No \'Distributed Web Monitoring\' Application.');
+                    return
+                }
+                window.zabbix.call('item.get', {
+                    output: 'extend',
+                    hostids: [ host ],
+                    select_triggers: 'extend',
+                    applicationids: [ resp.result[0].applicationid ]
+                }, function(err, resp) {
+                    if (err) return;
+                    if (_.isEmpty(resp.result)) {
+                        $('#results').append('No item defined in the \'Distributed Web Monitoring\' Application.');
+                        return
+                    }
+                    _.each(resp.result, function(item) {
+                        $('ul').append('<li>'+ item.description +' - '+ item.key_ +'</li>');
+                    }
+                }
+            }
+            return this;
         }
     });
 }).apply(this, window.args);
