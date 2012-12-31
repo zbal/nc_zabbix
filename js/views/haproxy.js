@@ -4,7 +4,7 @@
         
         el: '#content',
         events: {
-            'click #fetch_haproxy': 'fetchHaProxy'
+            'click #fetch-haproxy': 'fetchHaProxy'
         },
         initialize: function(options) {
             _.bindAll(this, 'render');
@@ -29,7 +29,7 @@
         }
     }),
     
-    views.HaproxyList = Backbone.View.extend({
+    views.HaProxyList = Backbone.View.extend({
         
         el: '#content',
         events: {

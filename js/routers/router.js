@@ -7,8 +7,8 @@
             '': 'main',
             'distributed-web-monitoring/:host/add': 'dwmAdd',
             'distributed-web-monitoring/:host/list': 'dwmList',
-            'haproxy/:host/add': 'haproxyAdd',
-            'haproxy/:host/list': 'haproxyList'
+            'haproxy/:host/add': 'haProxyAdd',
+            'haproxy/:host/list': 'haProxyList'
         },
         
         main: function () {
@@ -46,7 +46,7 @@
         },
 
         
-        haproxyAdd: function(host) {
+        haProxyAdd: function(host) {
             window.zabbix.call('host.get', {
                 output: 'extend',
                 hostids: [ host ],
@@ -60,7 +60,7 @@
                 }
             });
         },
-        haproxyList: function(host) {
+        haProxyList: function(host) {
             window.zabbix.call('host.get', {
                 output: 'extend',
                 hostids: [ host ],
