@@ -6,6 +6,7 @@
         <script language="javascript" src="js/vendors/jquery.min.js" type="text/javascript"></script>
         <script language="javascript" src="js/vendors/underscore.min.js" type="text/javascript"></script>
         <script language="javascript" src="js/vendors/backbone.min.js" type="text/javascript"></script>
+        <script language="javascript" src="js/vendors/jquery.csv.min.js" type="text/javascript"></script>
 
         <script language="javascript" src="js/zabbix.js" type="text/javascript"></script>
         <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans'>
@@ -140,13 +141,43 @@
                 </fieldset>
             </section>
             <section>
-                <h2>Webnode source</h2>
+                <h2>Distributed web checks</h2>
                 <ul></ul>
                 <div id='results'></div>
             </section>
         </script>
-        <script name='haproxyAdd' type='text/html'></script>
-        <script name='haproxyList' type='text/html'></script>
+        <script name='haproxyAdd' type='text/html'>
+            <section>
+                <h2>HaProxy source</h2>
+                This will attempt to fetch the data from the existing HaProxy instance and create the associated items.
+                <fieldset>
+                    <div class='field'>
+                        <label for='url'>HaProxy Stat URL</label>
+                        <input name='url' id='url' type='text' placeholder='Full URL including port' value='' />
+                    </div>
+                    <div class='field'>
+                        <label for='user'>HaProxy Stat User</label>
+                        <input name='user' id='user' type='text' placeholder='haProxy username' value='' />
+                    </div>
+                    <div class='field'>
+                        <label for='url'>HaProxy Stat Password</label>
+                        <input name='user' id='user' type='password' placeholder='haProxy password' value='' />
+                    </div>
+                    <a class='button primary' id='fetch_haproxy'>Fetch HaProxy stat pages</a>
+                </fieldset>
+            </section>
+            <section>
+                <h2>Results</h2>
+                <div id='pools'></div>
+                <div id='backends'></div>
+            </section>
+        </script>
+        <script name='haproxyList' type='text/html'>
+            <section>
+                <h2>List existing HA Proxy items</h2>
+                TODO
+            </section>
+        </script>
         
         <script language="javascript" src="js/init.js" type="text/javascript"></script>
 
