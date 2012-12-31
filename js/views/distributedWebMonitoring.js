@@ -272,8 +272,8 @@
                 { name: 'Timeout',          value: '-30', priority: 4 },
                 { name: 'Bad return code',  value: '-40', priority: 3 },
                 { name: 'Bad text',         value: '-50', priority: 3 },
-                { name: '4xx error', from: '-499', to: '-400'  priority: 3 },
-                { name: '5xx error', from: '-599', to: '-500'  priority: 5 }
+                { name: '4xx error', from: '-499', to: '-400',  priority: 3 },
+                { name: '5xx error', from: '-599', to: '-500',  priority: 5 }
             ];
 
             // iterate through triggers' list and append to actions to run
