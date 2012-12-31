@@ -23,7 +23,7 @@
             $.ajax({
                 url: url,
                 type: 'GET',
-                header: {Authorization: "Basic " + btoa(user + ":" + pass)}
+                headers: {Authorization: "Basic " + btoa(user + ":" + pass)}
             }, function(err, resp) {
                 console.log(resp);
             });
