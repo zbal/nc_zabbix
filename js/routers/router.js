@@ -56,7 +56,7 @@
                     new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
                     if (content) content.undelegateEvents();
-                    content = new views.HaproxyAdd({host: resp.result[0]}).render();
+                    content = new views.HaProxyAdd({host: resp.result[0]}).render();
                 }
             });
         },
@@ -70,7 +70,7 @@
                     new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
                     if (content) content.undelegateEvents();
-                    content = new views.HaproxyList({host: resp.result[0]}).render();
+                    content = new views.HaProxyList({host: resp.result[0]}).render();
                 }
             });
         }
