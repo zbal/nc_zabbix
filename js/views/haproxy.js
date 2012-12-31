@@ -22,7 +22,7 @@
             url = url +';csv;norefresh';
             $.ajax({
                 url: url,
-                method: 'GET',
+                type: 'GET',
                 beforeSend: function(xhr) {
                     xhr.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + pass))
                 }
