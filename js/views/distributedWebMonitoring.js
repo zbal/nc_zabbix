@@ -336,9 +336,9 @@
                     }
                     _.each(resp.result, function(item) {
                         $('ul').append('<li>'+ item.description +' - '+ item.key_ +'</li>');
-                    }
-                }
-            }
+                    });
+                });
+            });
             return this;
         }
     });
