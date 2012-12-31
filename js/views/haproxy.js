@@ -14,9 +14,9 @@
             this.$el.html(templates.haProxyAdd());
         },
         fetchHaProxy: function() {
-            var url = $('#url').text();
-            var user = $('#user').text();
-            var pass = $('#pass').text();
+            var url = $('#url').val();
+            var user = $('#user').val();
+            var pass = $('#pass').val();
             
             // Fetch the CSV from the URl
             url = url +';csv;norefresh';
