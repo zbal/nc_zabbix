@@ -327,7 +327,7 @@
                 }
                 window.zabbix.call('item.get', {
                     output: 'extend',
-                    hostids: [ host ],
+                    hostids: [ host.hostid ],
                     select_triggers: 'extend',
                     applicationids: [ resp.result[0].applicationid ]
                 }, function(err, resp) {
