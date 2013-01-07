@@ -82,7 +82,7 @@ Client.prototype.getApplicationId = function(name, options, callback) {
         output: 'shorten'
     }, function(err, resp) {
         if (err) return callback(err);
-        if (_.isEmpty(resp.results)) {
+        if (_.isEmpty(resp.result)) {
             if (create) {
                 self.call('application.create', {
                     hostid: hostid,
