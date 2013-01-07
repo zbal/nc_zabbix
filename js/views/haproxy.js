@@ -109,7 +109,7 @@
             var graphs_template = {}
             
             var handleItems = function(callback) {
-                var remaining = items.length();
+                var remaining = items.length;
                 window.zabbix.getApplicationId('HaProxy', {
                     hostid: parseInt(host.hostid)
                 }, function(err, applicationId) {
@@ -129,7 +129,7 @@
             }
             
             var handleTriggers = function(callback) {
-                var remaining = triggers.length();
+                var remaining = triggers.length;
                 triggers.forEach(function(trigger) {
                     window.zabbix.saveTrigger(trigger, function(err, triggerId) {
                        if (err) {
@@ -143,7 +143,7 @@
             }
 
             var handleGraphs = function(callback) {
-                var remaining = graphs.length();
+                var remaining = graphs.length;
                 graphs.forEach(function(graph) {
                     window.zabbix.saveGraph(graph, function(err, graphId) {
                        if (err) {
@@ -157,8 +157,8 @@
             }
             
             async.waterfall([
-                handleItems(cb),
-                handleTriggers(cb)
+                handleItems,
+                handleTriggers
             ], function(err) {
                 if (err) {
                     console.log(err);
