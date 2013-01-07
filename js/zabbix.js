@@ -166,4 +166,53 @@ Client.prototype.saveItem = function(item, options, callback) {
     });
 }
 
+// Save item
+// Either create or update an item
+// require hostid + application + item options
+Client.prototype.saveTrigger = function(trigger, options, callback) {
+    var self = this;
+    
+    if (_.isFunction(options)) {
+        callback = options;
+        options = {};
+    }
+    
+    // required fields for item
+    if (!trigger) return callback(new Error('Missing item'));
+    if (_.isUndefined(trigger.description)) return callback(new Error('Missing trigger description'));
+    if (_.isUndefined(trigger.expression)) return callback(new Error('Missing trigger expression'));
+    if (_.isUndefined(trigger.status)) return callback(new Error('Missing trigger status'));
+    if (_.isUndefined(trigger.url)) return callback(new Error('Missing trigger url'));
+    if (_.isUndefined(trigger.priority)) return callback(new Error('Missing trigger priority'));
+    if (_.isUndefined(trigger.type)) return callback(new Error('Missing trigger type'));
+    if (_.isUndefined(trigger.hostid)) return callback(new Error('Missing trigger hostid'));
+
+    // var create = true,
+    //     update = true;
+
+    self.call('trigger.get', {
+        hostids: [ trigger.hostid ],
+        filter: {description: trigger.description},
+        output: 'shorten'
+    }, function(err, resp) {
+        if (err) {
+            callback(err);
+        } else {
+            if (_.isEmpty(resp.result)) {
+                // not existing - simply create
+                delete trigger.hostid;
+                self.call('trigger.create', trigger, function(err, resp) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, resp.result.triggerids[0]);
+                    }
+                });
+            } else {
+                callback(null, resp.result[0].triggerid);
+            }
+        }
+    });
+}
+
 window.Zabbix = Client;
