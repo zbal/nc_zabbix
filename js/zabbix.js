@@ -109,6 +109,11 @@ Client.prototype.getApplicationId = function(name, options, callback) {
 Client.prototype.saveItem = function(item, options, callback) {
     var self = this;
     
+    if (_.isFunction(options)) {
+        callback = options;
+        options = {};
+    }
+    
     // required fields for item
     if (!item) return callback(new Error('Missing item'));
     if (!item.key_) return callback(new Error('Missing item key_'));
