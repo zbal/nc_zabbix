@@ -77,7 +77,7 @@ Client.prototype.getApplicationId = function(name, options, callback) {
     var hostid = options.hostid;
 
     self.call('application.get', {
-        hostids: [ hostid ],
+        hostids: hostid,
         filter: {name: name},
         output: 'shorten'
     }, function(err, resp) {
