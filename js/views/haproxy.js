@@ -23,8 +23,8 @@
             _.each(obj, function(server) {
                 var params = [
                     { name: 'hrsp_5xx',     description: 'http_5xx responses',  delay: 1800, value_type: 0 },
-                    { name: 'chkdown',      description: 'Check down',          delay: 1800, value_type: 0 },
-                    { name: 'chkfail',      description: 'Check fail',          delay: 1800, value_type: 0 },
+                    { name: 'chkdown',      description: 'Check Down',          delay: 1800, value_type: 0 },
+                    { name: 'chkfail',      description: 'Check Fail',          delay: 1800, value_type: 0 },
                     { name: 'econ',         description: 'Errors Connection',   delay: 1800, value_type: 0 },
                     { name: 'eresp',        description: 'Errors Response',     delay: 1800, value_type: 0 },
                     { name: 'check_status', description: 'Last Check Status',   delay: 1800, value_type: 1 },
@@ -45,6 +45,7 @@
                     localItem.trends = 60;
                     localItem.hostid = parseInt(host.hostid);
 
+                    localItem.description = 'HA '+ server['# pxname'] +' '+ server['svname'] +' '+ item.description
                     localItem.key_ = 'haproxy[stat,'+ item.name +','+ server['# pxname'] +','+ server['svname'] +']';
 
                     // do some filtering as not all the items apply to all type of srvname
