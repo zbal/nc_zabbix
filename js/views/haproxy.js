@@ -1,10 +1,10 @@
 (function(models, views, routers, templates) {
-
     views.HaProxyAdd = Backbone.View.extend({
         
         el: '#content',
         events: {
             'click #fetch-haproxy': 'fetchHaProxy'
+            'click #process-haproxy': 'processHaProxy'
         },
         initialize: function(options) {
             _.bindAll(this, 'render');
@@ -12,6 +12,11 @@
         },
         render: function() {
             this.$el.html(templates.haProxyAdd());
+        },
+        processHaProxy: function() {
+            var csv = $('#csv').val();
+            var obj = $.csv.toObjects(csv);
+            console.log(obj);
         },
         fetchHaProxy: function() {
             var url = $('#url').val();

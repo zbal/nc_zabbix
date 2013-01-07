@@ -160,10 +160,15 @@
                         <input name='user' id='user' type='text' placeholder='haProxy username' value='' />
                     </div>
                     <div class='field'>
-                        <label for='url'>HaProxy Stat Password</label>
-                        <input name='user' id='user' type='password' placeholder='haProxy password' value='' />
+                        <label for='pass'>HaProxy Stat Password</label>
+                        <input name='pass' id='pass' type='password' placeholder='haProxy password' value='' />
+                    </div>
+                    <div class='field'>
+                        <label for='csv'>HaProxy CSV</label>
+                        <textarea name='csv' id='csv' placeholder='Copy HaProxy CSV inside' value='' /></textarea>
                     </div>
                     <a class='button primary' id='fetch-haproxy'>Fetch HaProxy stat pages</a>
+                    <a class='button primary' id='process-haproxy'>Process HaProxy stat pages</a>
                 </fieldset>
             </section>
             <section>
