@@ -21,7 +21,7 @@
             var items = [];
             
             _.each(obj, function(server) {
-                var items = [
+                var params = [
                     { name: 'hrsp_5xx',     description: 'http_5xx responses',  delay: 1800, value_type: 0 },
                     { name: 'chkdown',      description: 'Check down',          delay: 1800, value_type: 0 },
                     { name: 'chkfail',      description: 'Check fail',          delay: 1800, value_type: 0 },
@@ -37,7 +37,7 @@
                     { name: 'status',       description: 'Status',              delay: 300,  value_type: 1 },
                 ]
 
-                items.forEach(function(item) {
+                params.forEach(function(item) {
                     var localItem = _.clone(item);
 
                     // common data
@@ -64,11 +64,8 @@
             window.zabbix.getApplicationId('HaProxy', {
                 hostid: parseInt(host.hostid)
             }, function(err, applicationId) {
-                console.log('err: ', err)
-                console.log('applicationid 2 = '+ applicationId);
                 if (err) return;
                 if (!applicationId) return;
-                console.log('applicationid 2 = '+ applicationId);
                 items.forEach(function(item) {
                     console.log('processing item');
                     item.applications = [ applicationId ];
