@@ -43,7 +43,7 @@
                     // common data
                     localItem.history = 15;
                     localItem.trends = 60;
-                    localItem.hostid = host.hostid;
+                    localItem.hostid = parseInt(host.hostid);
 
                     localItem.key_ = 'haproxy[stat,'+ item.name +','+ server['# pxname'] +','+ server['svname'] +']';
 
