@@ -114,7 +114,7 @@ Client.prototype.saveItem = function(item, options, callback) {
     if (!item.key_) return callback(new Error('Missing item key_'));
     if (!item.description) return callback(new Error('Missing item description'));
     if (!item.type) item.type = 0; // zabbix_get
-    if (!item.value_type) return callback(new Error('Missing item value_type'));
+    if (_.isUndefined(item.value_type)) return callback(new Error('Missing item value_type'));
     if (!item.status) item.status = 0; // enable item
     if (!item.history) return callback(new Error('Missing item history'));
     if (!item.trends) return callback(new Error('Missing item trends'));
