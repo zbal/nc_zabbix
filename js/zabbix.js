@@ -100,7 +100,7 @@ Client.prototype.getApplicationId = function(name, options, callback) {
         } else {
             callback(null, resp.result[0].applicationid)
         }
-    }
+    });
 }
 
 // Save item
