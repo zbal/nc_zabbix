@@ -3,7 +3,7 @@
         
         el: '#content',
         events: {
-            'click #fetch-haproxy': 'fetchHaProxy'
+            'click #fetch-haproxy': 'fetchHaProxy',
             'click #process-haproxy': 'processHaProxy'
         },
         initialize: function(options) {
