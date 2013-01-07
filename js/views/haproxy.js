@@ -62,7 +62,7 @@
             });
             
             window.zabbix.getApplicationId('HaProxy', {
-                hostid: view.hostid
+                hostid: host.hostid
             }, function(err, applicationId) {
                 if (err) return;
                 if (!applicationId) return;
