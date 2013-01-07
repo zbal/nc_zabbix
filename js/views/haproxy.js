@@ -16,7 +16,31 @@
         processHaProxy: function() {
             var csv = $('#csv').val();
             var obj = $.csv.toObjects(csv);
-            console.log(obj);
+            var keys = {};
+            
+            _.each(obj, function(server) {
+                keys[server['# pxname'] +' '+ server['svname']] = [];
+                var param = [
+                    'hrsp_5xx',
+                    'chkdown',
+                    'chkfail',
+                    'econ',
+                    'eresp',
+                    'check_status',
+                    'name',
+                    'scur',
+                    'slim',
+                    'smax',
+                    'rate',
+                    'rate_max',
+                    'status'
+                ]
+                param.each(function(key) {
+                    var key_ = 'haproxy[stat,'+ key +','+ server['# pxname'] +','+ server['svname'] +']';
+                    keys[server['# pxname'] +' '+ server['svname']].push(key_);
+                });
+            });
+            console.log(keys);
         },
         fetchHaProxy: function() {
             var url = $('#url').val();
