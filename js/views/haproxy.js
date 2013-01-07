@@ -3,8 +3,9 @@
         
         el: '#content',
         events: {
-            'click #fetch-haproxy': 'fetchHaProxy',
-            'click #process-haproxy': 'processHaProxy'
+            // 'click #fetch-haproxy': 'fetchHaProxy',
+            'click #process-haproxy': 'processHaProxy',
+            'keyup #url': 'updateUrl'
         },
         initialize: function(options) {
             _.bindAll(this, 'render');
@@ -12,6 +13,13 @@
         },
         render: function() {
             this.$el.html(templates.haProxyAdd());
+        },
+        updateUrl: function(target) {
+            // simply display the URL as a link when being entered to ensure it exists !
+            var url = $('#url').val() +';csv;norefresh';
+            if (url.search(/^http(|s):\/\//) === -1) url = 'http://'+ url;
+            $('#url').parent().find('a').attr('href', url);
+            $('#url').parent().find('a').html(url);
         },
         processHaProxy: function() {
             var view = this;
@@ -83,7 +91,7 @@
                         description: 'HA '+ pool +' '+ name +' current session count 75% of the session limit on {HOSTNAME}, now {ITEM.LASTVALUE}',
                         expression: '{'+ host.host +':haproxy[stat,scur,'+ pool +','+ name +'].last(0)}/{'+ host.host +':haproxy[stat,slim,'+ pool +','+ name +'].last(0)}>0.75',
                         status: 0,
-                        priority: 0,
+                        priority: 4,
                         type: 0,
                         url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=43',
                         hostid: parseInt(host.hostid)
@@ -94,7 +102,7 @@
                         description: 'HA '+ pool +' '+ name +' is not UP',
                         expression: '{'+ host.host +':haproxy[stat,status,'+ pool +','+ name +'].str(UP)}#1',
                         status: 0,
-                        priority: 0,
+                        priority: 3,
                         type: 0,
                         url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=38',
                         hostid: parseInt(host.hostid)
