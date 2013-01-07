@@ -64,8 +64,11 @@
             window.zabbix.getApplicationId('HaProxy', {
                 hostid: host.hostid
             }, function(err, applicationId) {
+                console.log('err: ', err)
+                console.log('applicationid 2 = '+ applicationId);
                 if (err) return;
                 if (!applicationId) return;
+                console.log('applicationid 2 = '+ applicationId);
                 items.forEach(function(item) {
                     console.log('processing item');
                     item.applications = [ applicationId ];
