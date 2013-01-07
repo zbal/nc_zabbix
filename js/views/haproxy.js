@@ -85,6 +85,7 @@
                         status: 0,
                         priority: 0,
                         type: 0,
+                        url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=43',
                         hostid: parseInt(host.hostid)
                     }
                     triggers.push(trigger);
@@ -95,6 +96,7 @@
                         status: 0,
                         priority: 0,
                         type: 0,
+                        url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=38',
                         hostid: parseInt(host.hostid)
                     }
                     triggers.push(trigger);
