@@ -160,6 +160,7 @@
                             }
                             $('#items').append('.');
                             if (--remaining === 0) {
+                                $('#items').append(' total: '+ items.length);
                                 callback(null)
                             }
                         });
@@ -176,6 +177,7 @@
                        }
                        $('#triggers').append('.');
                        if (--remaining === 0) {
+                           $('#triggers').append(' total: '+ triggers.length);
                            callback(null)
                        }
                    });
@@ -191,6 +193,7 @@
                        }
                        $('#graphs').append('.');
                        if (--remaining === 0) {
+                           $('#graphs').append(' total: '+ graphs.length);
                            callback(null)
                        }
                    });
