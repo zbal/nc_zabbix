@@ -271,7 +271,7 @@ Client.prototype.saveGraph = function(graph, options, callback) {
     self.call('graph.get', {
         hostids: [ graph.hostid ],
         filter: {name: graph.name},
-        output: 'shorten'
+        output: 'extend'
     }, function(err, resp) {
         if (err) {
             callback(err);
@@ -289,6 +289,8 @@ Client.prototype.saveGraph = function(graph, options, callback) {
             } else {
                 if (update) {
                     graph.graphid = resp.result[0].graphid;
+                    // concatenate the existing graph items with new one.
+                    graph.gitems = resp.result[0].gitems.concat(graph.gitems);
                     self.call('graph.update', graph, function(err, resp) {
                         if (err) {
                             callback(err);
