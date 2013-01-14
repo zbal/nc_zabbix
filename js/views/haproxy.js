@@ -86,6 +86,7 @@
                 delay: 1800,
                 value_type: 1,
                 history: 15,
+                trends: 60,
                 hostid: parseInt(host.hostid),
                 key_: 'haproxy[errors]'
             });
@@ -94,6 +95,7 @@
                 delay: 1800,
                 value_type: 1,
                 history: 15,
+                trends: 60,
                 hostid: parseInt(host.hostid),
                 key_: 'haproxy[info,version]'
             });
