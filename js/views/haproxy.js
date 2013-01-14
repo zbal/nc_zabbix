@@ -264,7 +264,7 @@
                 });
             
                 // parse items keys
-                items.each(function(item) {
+                _.each(items, function(item) {
                     var key = item.key_;
                     key = key.replace(/^haproxy\[/, '');
                     key = key.replace(/\]$/, '');
@@ -281,7 +281,7 @@
                 })
                 
                 // clean pools
-                pools.each(function(pool, name) {
+                _.each(pools, function(pool, name) {
                     $('#pools > ul').append('<li><strong>'+ name +'</strong>: '+ _.uniq(pool).join(', ') +'</li>');
                 });
             });
