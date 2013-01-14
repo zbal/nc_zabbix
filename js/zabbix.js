@@ -288,6 +288,7 @@ Client.prototype.saveGraph = function(graph, options, callback) {
                 });
             } else {
                 if (update) {
+                    graph.graphid = resp.result[0].graphid;
                     self.call('graph.update', graph, function(err, resp) {
                         if (err) {
                             callback(err);
