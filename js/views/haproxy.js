@@ -251,7 +251,7 @@
             
             // we fetch the items within the DWM application - not searching for nc.web items...
             window.zabbix.call('item.get', {
-                hostids: [ host.hostid ],
+                host: host.host,
                 search: {key_: 'haproxy'},
                 startSearch: 1,
                 output: 'extend'
