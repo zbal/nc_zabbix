@@ -158,6 +158,7 @@
                             if (err) {
                                 return callback(err);
                             }
+                            $('#items').append('.');
                             if (--remaining === 0) {
                                 callback(null)
                             }
@@ -173,6 +174,7 @@
                        if (err) {
                            return callback(err);
                        }
+                       $('#triggers').append('.');
                        if (--remaining === 0) {
                            callback(null)
                        }
@@ -187,6 +189,7 @@
                        if (err) {
                            return callback(err);
                        }
+                       $('#graphs').append('.');
                        if (--remaining === 0) {
                            callback(null)
                        }
@@ -199,9 +202,12 @@
                 handleTriggers
             ], function(err) {
                 if (err) {
+                    $('#results').append('Error !')
+                    $('#results').append('<div class="error">'+ err.message +'</div>')
                     console.log(err);
                     return
                 }
+                $('#results').append('Completed !')
                 console.log('Succcessssss !!! ')
             });
             
