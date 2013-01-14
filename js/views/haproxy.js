@@ -4,7 +4,8 @@
         el: '#content',
         events: {
             // 'click #fetch-haproxy': 'fetchHaProxy',
-            'click #process-haproxy': 'processHaProxy',
+            'click #parse-haproxy': 'parseHaProxy',
+            'click #create-haproxy': 'createHaProxy',
             'keyup #url': 'updateUrl'
         },
         initialize: function(options) {
@@ -21,7 +22,34 @@
             $('#url').parent().find('a').attr('href', url);
             $('#url').parent().find('a').html(url);
         },
-        processHaProxy: function() {
+        parseHaProxy: function() {
+            var view = this;
+            var host = view.host;
+            var csv = $('#csv').val();
+            var servers = $.csv.toObjects(csv);
+            var pools = {};
+
+            // var pools = _.uniq(_.pluck(servers, '# pxname'));
+            // pools.forEach(function(pool) {
+            //     
+            // });
+            
+            _.each(servers, function(server) {
+                var pool = pools[server['# pxname']] || [];
+                
+                if (server['svname'] !== 'FRONTEND' && server['svname'] !== 'BACKEND') {
+                    pool.push(server['svname']);
+                }
+
+                pools[server['# pxname']] = pool;
+            });
+            
+            _.each(pools, function(pool, name) {
+                $('#pools > ul').append('<li><strong>'+ name +'</strong>: '+ pool.join(', ') +'</li>');
+            })
+            $('#create-haproxy').show();
+        },
+        createHaProxy: function() {
             var view = this;
             var host = view.host;
             var csv = $('#csv').val();
@@ -206,6 +234,8 @@
             this.host = options.host;
         },
         render: function() {
+            $('#create-haproxy').hide();
+            
             this.$el.html(templates.haProxyList());
             
         }
