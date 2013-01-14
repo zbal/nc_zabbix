@@ -13,6 +13,7 @@
             this.host = options.host;
         },
         render: function() {
+            $('#create-haproxy').hide();
             this.$el.html(templates.haProxyAdd());
         },
         updateUrl: function(target) {
@@ -243,10 +244,20 @@
             this.host = options.host;
         },
         render: function() {
-            $('#create-haproxy').hide();
+            var view = this;
+            var host = view.host;
             
             this.$el.html(templates.haProxyList());
             
+            // we fetch the items within the DWM application - not searching for nc.web items...
+            window.zabbix.call('item.get', {
+                hostids: [ host.hostid ],
+                search: {key_: 'haproxy'},
+                startSearch: 1,
+                output: 'extend'
+            }, function(err, resp) {
+                console.log('resp: ', resp)
+            });
         }
     })
 }).apply(this, window.args);
