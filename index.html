@@ -102,11 +102,11 @@
                     <div class='field'>
                         <label for='dwm_url'>Url</label>
                         <input type='text' placeholder='http://example.com' id='dwm_url' name='dwm_url' value=''>
-                        <a href='' target='_blank'></a><small class='description'>Click on the link to validate the URL</small>
+                        <a href='' target='_blank'></a><small class='description'> Click on the link to validate the URL</small>
                     </div>
                     <div class='field'>
                         <label for='dwm_timeout'>Timeout (in sec)</label>
-                        <input type='text' placeholder='30' id='dwm_timeout' name='dwm_timeout' value=''>
+                        <input type='text' placeholder='30' id='dwm_timeout' name='dwm_timeout' value='30'>
                     </div>
                     <div class='field'>
                         <label for='dwm_text'>Matching text</label>
@@ -114,16 +114,22 @@
                     </div>
                     <div class='field'>
                         <label for='dwm_code'>Return code</label>
-                        <input type='text' placeholder='200' id='dwm_code' name='dwm_code' value=''>
+                        <input type='text' placeholder='200' id='dwm_code' name='dwm_code' value='200'>
                     </div>
                     <div class='field'>
                         <label for='dwm_frequency'>Frequency (in sec)</label>
-                        <input type='text' placeholder='120' id='dwm_frequency' name='dwm_frequency' value=''>
+                        <input type='text' placeholder='120' id='dwm_frequency' name='dwm_frequency' value='120'>
                     </div>
                 </fieldset>
                 <a class='button primary' id='create_dwm'>Create Distributed Web Monitoring</a>
             </section>
-            <div id='results'></div>
+            <div id='results'>
+                <ul>
+                    <li id='items'><strong>Items</strong>: </li>
+                    <li id='triggers'><strong>Triggers</strong>: </li>
+                    <li id='graphs'><strong>Graphs</strong>: </li>
+                </ul>
+            </div>
         </script>
         <script name='distributedWebMonitoringList' type='text/html'>
             <section>

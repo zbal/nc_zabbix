@@ -32,11 +32,6 @@
             var servers = $.csv.toObjects(csv);
             var pools = {};
 
-            // var pools = _.uniq(_.pluck(servers, '# pxname'));
-            // pools.forEach(function(pool) {
-            //     
-            // });
-            
             _.each(servers, function(server) {
                 var pool = pools[server['# pxname']] || [];
                 
@@ -282,8 +277,6 @@
                 $('#results').append('Completed !')
                 console.log('Succcessssss !!! ')
             });
-            
-            console.log(items);
         },
         fetchHaProxy: function() {
             var url = $('#url').val();

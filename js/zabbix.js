@@ -178,7 +178,7 @@ Client.prototype.saveTrigger = function(trigger, options, callback) {
     }
     
     // required fields for item
-    if (!trigger) return callback(new Error('Missing item'));
+    if (!trigger) return callback(new Error('Missing trigger'));
     if (_.isUndefined(trigger.description)) return callback(new Error('Missing trigger description'));
     if (_.isUndefined(trigger.expression)) return callback(new Error('Missing trigger expression'));
     if (_.isUndefined(trigger.status)) return callback(new Error('Missing trigger status'));
@@ -215,4 +215,89 @@ Client.prototype.saveTrigger = function(trigger, options, callback) {
     });
 }
 
+// Save graph
+// Either create or update a graph
+// require hostid + application + item options
+Client.prototype.saveGraph = function(graph, options, callback) {
+    var self = this;
+    
+    if (_.isFunction(options)) {
+        callback = options;
+        options = {};
+    }
+    
+    // required fields for item
+    if (!graph) return callback(new Error('Missing graph'));
+    if (_.isUndefined(graph.name)) return callback(new Error('Missing graph name'));
+    if (_.isUndefined(graph.gitems) || _.isEmpty(graph.gitems)) return callback(new Error('Missing graph items'));
+
+    // graph defaults
+    // details: https://www.zabbix.com/documentation/1.8/api/graph
+    graph.width = graph.width || 900;
+    graph.height = graph.height || 200;
+    graph.yaxismin = graph.yaxismin || 0;
+    graph.yaxismax = graph.yaxismax || 0;
+    graph.templateid = graph.templateid || 0;
+    graph.show_work_period = graph.show_work_period || 1;
+    graph.show_triggers = graph.show_triggers || 1;
+    graph.graphtype = graph.graphtype || 0;
+    graph.show_legend = graph.show_legend || 0;
+    graph.show_3d = graph.show_3d || 0;
+    graph.percent_left = graph.percent_left || 0;
+    graph.percent_right = graph.percent_right || 0;
+    graph.ymin_type = graph.ymin_type || 0;
+    graph.ymax_type = graph.ymax_type || 0;
+    graph.ymin_itemid = graph.ymin_itemid || 0;
+    graph.ymax_itemid = graph.ymax_itemid || 0;
+
+    // graph items defaults
+    // details: https://www.zabbix.com/documentation/1.8/api/graphitem
+    _.each(graph.gitems, function(gitem, index) {
+        gitem.drawtype = gitem.drawtype || 0;
+        gitem.sortorder = gitem.sortorder || 0;
+        gitem.yaxisside = gitem.yaxisside || 0;
+        gitem.calc_fnc = gitem.calc_fnc || 4;
+        gitem.type = gitem.type || 0;
+        gitem.periods_cnt = gitem.periods_cnt || 5;
+
+        // re-assign to graph object 
+        graph.gitems[index] = gitem;
+    });
+    
+
+    // var create = true;
+    var update = true;
+
+    self.call('graph.get', {
+        hostids: [ graph.hostid ],
+        filter: {name: graph.name},
+        output: 'shorten'
+    }, function(err, resp) {
+        if (err) {
+            callback(err);
+        } else {
+            if (_.isEmpty(resp.result)) {
+                // not existing - simply create
+                delete graph.hostid;
+                self.call('graph.create', graph, function(err, resp) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, resp.result.graphids[0]);
+                    }
+                });
+            } else {
+                if (update) {
+                    self.call('graph.update', graph, function(err, resp) {
+                        if (err) {
+                            callback(err);
+                        } else {
+                            callback(null, resp.result.graphids[0]);
+                        }
+                    });
+                }
+            }
+        }
+    });
+}
 window.Zabbix = Client;

@@ -117,7 +117,7 @@
             var frequency = parseInt(frequency);
             if (url.search(/^http(|s):\/\//) === -1) url = 'http://'+ url;
     
-            var zbx_item = {
+            var item = {
                 key_: 'nc.web.status['+ url +','+ timeout +','+ code +','+ text +',]',
                 description: 'Distributed Web Monitor - $1',
                 type: 2,
@@ -129,142 +129,14 @@
                 delay: frequency
             }
             
-            // waterfall execution
-            var actions = [
-                function(cb) {
-                    $('#results').append('Searching for existing application id: ... ');
-                    window.zabbix.call('application.get', {
-                        hostids: host.hostid,
-                        filter: {name: 'Distributed Web Monitoring'},
-                        output: 'shorten'
-                    }, function(err, resp) {
-                        if (err) {
-                            cb(err);
-                        } else {
-                            if (_.isEmpty(resp.result)) {
-                                $('#results').append('not existing.</br>');
-                                cb(null, null)
-                            } else {
-                                $('#results').append('done</br>');
-                                cb(null, resp.result[0].applicationid);
-                            }
-                        }
-                    });
-                },
-                function(id, cb) {
-                    if (id) {
-                        cb(null, id);
-                    } else {
-                        $('#results').append('Creating new application: ... ');
-                        window.zabbix.call('application.create', {
-                            hostid: host.hostid,
-                            name: 'Distributed Web Monitoring'
-                        }, function(err, resp) {
-                            if (err) {
-                                cb(err);
-                            } else {
-                                $('#results').append('done</br>');
-                                cb(null, resp.result.applicationids[0])
-                            }
-                        });
-                    }
-                },
-                function(appid, cb) {
-                    $('#results').append('application id: '+ appid +'...</br>');
-                    $('#results').append('Searching for existing DWM item: ... ');
-                    window.zabbix.call('item.get', {
-                        hostids: [ host.hostid ],
-                        filter: {key_: zbx_item.key_},
-                        output: 'shorten'
-                    }, function(err, resp) {
-                        if (err) {
-                            cb(err);
-                        } else {
-                            if (_.isEmpty(resp.result)) {
-                                $('#results').append('not existing.</br>');
-                                cb(null, null, appid)
-                            } else {
-                                $('#results').append('done</br>');
-                                cb(null, resp.result[0].itemid, appid);
-                            }
-                        }
-                    });
-                },
-                function(itemid, appid, cb) {
-                    if (itemid) {
-                        cb(null, itemid, appid);
-                    } else {
-                        $('#results').append('Creating new DWM item: ... ');
-                        zbx_item.applications = [ appid ]
-                        window.zabbix.call('item.create', zbx_item, function(err, resp) {
-                            if (err) {
-                                cb(err);
-                            } else {
-                                $('#results').append('done</br>');
-                                cb(null, resp.result.itemids, appid);
-                            }
-                        });
-                    }
-                },
-                function(itemid, appid, cb) {
-                    $('#results').append('itemid: '+ itemid +' - appid: '+ appid +'</br>');
-                    cb(null);
-                }
-            ];
-            
-            var buildTriggerAction = function(trigger) {
-                return function(cb) {
-                    var expression = '';
+            var items = [];
+            items.push(item);
 
-                    // handle ranges
-                    if (trigger.value) {
-                        expression = '{'+ host.host +':'+ zbx_item.key_ +'.last(0)}=('+ trigger.value +')';
-                    } else {
-                        expression = '{'+ host.host +':'+ zbx_item.key_ +'.last(0)}>('+ trigger.from +')'
-                            +' & '
-                            +'{'+ host.host +':'+ zbx_item.key_ +'.last(0)}<('+ trigger.to +')';
-                    }
-                    
-                    var zbx_trigger = {
-                        description: 'Distributed Web Monitor - '+ trigger.name +' - '+ url,
-                        expression: expression,
-                        url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=123',
-                        status: 0,
-                        priority: trigger.priority,
-                        type: 0
-                    };
-                    
-                    $('#results').append('Checking for existing trigger for "'+ trigger.name +'": ... ');
-                    window.zabbix.call('trigger.get', {
-                        hostids: [ host.hostid ],
-                        filter: {description: [zbx_trigger.description]},
-                        output: 'shorten'
-                    }, function(err, resp) {
-                        if (err) {
-                            cb(err);
-                        } else {
-                            if (_.isEmpty(resp.result)) {
-                                $('#results').append('missing</br>');
-                                $('#results').append('Creating new trigger for "'+ trigger.name +'": ... ');
-                                window.zabbix.call('trigger.create', zbx_trigger, function(err, resp) {
-                                    if (err) {
-                                        cb(err);
-                                    } else {
-                                        $('#results').append('done</br>');
-                                        cb(null);
-                                    }
-                                })
-                            } else {
-                                $('#results').append('existing</br>');
-                                cb(null);
-                            }
-                        }
-                    });
-                }
-            }
-            
-            // list all triggers to apply
-            var triggers = [
+            // 
+            // handle triggers
+            //
+            var triggers = [];
+            var triggers_template = [
                 { name: 'Other error',      value: '-1',  priority: 3 },
                 { name: 'Bad URL',          value: '-5',  priority: 3 },
                 { name: 'Bad DNS',          value: '-10', priority: 3 },
@@ -277,17 +149,100 @@
             ];
 
             // iterate through triggers' list and append to actions to run
-            _.each(triggers, function(trigger) {
-                actions.push(buildTriggerAction(trigger));
+            _.each(triggers_template, function(trigger) {
+                var expression = '';
+
+                // handle ranges
+                if (trigger.value) {
+                    expression = '{'+ host.host +':'+ item.key_ +'.last(0)}=('+ trigger.value +')';
+                } else {
+                    expression = '{'+ host.host +':'+ item.key_ +'.last(0)}>('+ trigger.from +')'
+                        +' & '
+                        +'{'+ host.host +':'+ item.key_ +'.last(0)}<('+ trigger.to +')';
+                }
+                
+                var localTrigger = {
+                    description: 'Distributed Web Monitor - '+ trigger.name +' - '+ url,
+                    expression: expression,
+                    url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=123',
+                    status: 0,
+                    priority: trigger.priority,
+                    type: 0
+                };
+                
+                triggers.push(localTrigger);
+            });            
+
+            
+            var handleItems = function(callback) {
+                var remaining = items.length;
+                window.zabbix.getApplicationId('Distributed Web Monitoring', {
+                    hostid: parseInt(host.hostid)
+                }, function(err, applicationId) {
+                    if (err) return callback(err);
+                    items.forEach(function(item) {
+                        item.applications = [ applicationId ];
+                        window.zabbix.saveItem(item, function(err, itemId) {
+                            if (err) {
+                                return callback(err);
+                            }
+                            $('#items').append('.');
+                            if (--remaining === 0) {
+                                $('#items').append(' total: '+ items.length);
+                                callback(null)
+                            }
+                        });
+                    });
+                });
+            }
+            
+            var handleTriggers = function(callback) {
+                var remaining = triggers.length;
+                triggers.forEach(function(trigger) {
+                    window.zabbix.saveTrigger(trigger, function(err, triggerId) {
+                       if (err) {
+                           return callback(err);
+                       }
+                       $('#triggers').append('.');
+                       if (--remaining === 0) {
+                           $('#triggers').append(' total: '+ triggers.length);
+                           callback(null)
+                       }
+                   });
+               });
+            }
+
+            var handleGraphs = function(callback) {
+                var remaining = graphs.length;
+                graphs.forEach(function(graph) {
+                    window.zabbix.saveGraph(graph, function(err, graphId) {
+                       if (err) {
+                           return callback(err);
+                       }
+                       $('#graphs').append('.');
+                       if (--remaining === 0) {
+                           $('#graphs').append(' total: '+ graphs.length);
+                           callback(null)
+                       }
+                   });
+               });
+            }
+
+            async.waterfall([
+                handleItems,
+                handleTriggers
+            ], function(err) {
+                if (err) {
+                    $('#results').append('Error !')
+                    $('#results').append('<div class="error">'+ err.message +'</div>')
+                    console.log(err);
+                    return
+                }
+                $('#results').append('Completed !')
+                console.log('Succcessssss !!! ')
             });
             
-            async.waterfall(actions, function(err, result) {
-                if (err) {
-                    new views.Error({
-                        msg: err.data ? err.data : err.message
-                    }).render();
-                }
-            });
+
         }
     });
     
