@@ -181,6 +181,7 @@
             var graphs = [];
             graphs.push({
                 name: 'Distributed Web Monitoring',
+                hostid: parseInt(host.hostid),
                 gitems: []
             })
             
