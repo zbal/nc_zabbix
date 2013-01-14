@@ -80,6 +80,41 @@
                 { name: 'rate_max',     description: 'Session Rate Max',    delay: 1800, value_type: 0 },
                 { name: 'status',       description: 'Status',              delay: 300,  value_type: 1 },
             ]
+            // default items
+            items.push({
+                description: 'HA Errors Status',
+                delay: 1800,
+                value_type: 1,
+                history: 15,
+                hostid: parseInt(host.hostid),
+                key_: 'haproxy[errors]'
+            });
+            items.push({
+                description: 'HA Version',
+                delay: 1800,
+                value_type: 1,
+                history: 15,
+                hostid: parseInt(host.hostid),
+                key_: 'haproxy[info,version]'
+            });
+            items.push({
+                description: 'HA Uptime',
+                delay: 300,
+                value_type: 0,
+                history: 15,
+                trends: 60,
+                hostid: parseInt(host.hostid),
+                key_: 'haproxy[info,uptime_sec]'
+            });
+            items.push({
+                description: 'Number of running processes $1',
+                delay: 300,
+                value_type: 0,
+                history: 30,
+                trends: 90,
+                hostid: parseInt(host.hostid),
+                key_: 'proc.num[haproxy]'
+            });
             
             _.each(servers, function(server) {
                 items_template.forEach(function(item) {
@@ -111,6 +146,35 @@
             // build triggers
             //
             var triggers = [];
+            // default triggers
+            triggers.push({
+                description: 'HaProxy uptime less than 1 hour on {HOSTNAME}',
+                expression: '{'+ host.host +':haproxy[info,uptime_sec].last(0)}<3600 & {'+ host.host +':haproxy[info,uptime_sec].last(0)}>0',
+                status: 0,
+                priority: 4,
+                type: 0,
+                url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=42',
+                hostid: parseInt(host.hostid)
+            });
+            triggers.push({
+                description: 'Bad Data from HAProxy on {HOSTNAME}, now {ITEM.LASTVALUE}',
+                expression: '{'+ host.host +':haproxy[info,uptime_sec].last(0)}<0',
+                status: 0,
+                priority: 3,
+                type: 0,
+                url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=88',
+                hostid: parseInt(host.hostid)
+            });
+            triggers.push({
+                description: 'HAProxy is not running on {HOSTNAME}',
+                expression: '{'+ host.host +':proc.num[haproxy].last(0)}=0',
+                status: 0,
+                priority: 5,
+                type: 0,
+                url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=10',
+                hostid: parseInt(host.hostid)
+            });
+            
             _.each(servers, function(server) {
                 var pool = server['# pxname'],
                     name = server['svname'];
