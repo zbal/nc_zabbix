@@ -167,7 +167,8 @@
                     url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=123',
                     status: 0,
                     priority: trigger.priority,
-                    type: 0
+                    type: 0,
+                    hostid: parseInt(host.hostid)
                 };
                 
                 triggers.push(localTrigger);
