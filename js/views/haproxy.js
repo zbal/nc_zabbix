@@ -246,17 +246,44 @@
         render: function() {
             var view = this;
             var host = view.host;
+            var pools = {}
             
             this.$el.html(templates.haProxyList());
             
-            // we fetch the items within the DWM application - not searching for nc.web items...
+            // seems the search is not working as expected.. 
+            // Fetch all and filter in the results
             window.zabbix.call('item.get', {
-                host: host.host,
-                search: {key_: 'haproxy'},
-                startSearch: 1,
+                hostids: [ host.hostid ],
                 output: 'extend'
             }, function(err, resp) {
-                console.log('resp: ', resp)
+                // filter items
+                var items = _.filter(resp.result, function(item) {
+                    if (item.key_.indexOf(/^haproxy\[/) !== -1) {
+                        return true;
+                    }
+                });
+            
+                // parse items keys
+                items.each(function(item) {
+                    var key = item.key_;
+                    key = key.replace(/^haproxy\[/, '');
+                    key = key.replace(/\]$/, '');
+                    
+                    var detail = key.split(',');
+                    var pxname = detail[2],
+                        svname = detail[3];
+                        
+                    var pool = pools[pxname] || [];
+                    // if (svname !== 'FRONTEND' && svname !== 'BACKEND') {
+                        pool.push(svname);
+                    // }
+                    pools[pxname] = pool;
+                })
+                
+                // clean pools
+                pools.each(function(pool, name) {
+                    $('#pools > ul').append('<li><strong>'+ name +'</strong>: '+ _.uniq(pool).join(', ') +'</li>');
+                });
             });
         }
     })
