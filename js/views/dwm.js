@@ -174,6 +174,15 @@
                 triggers.push(localTrigger);
             });            
 
+            //
+            // handle graph
+            //
+            // Happen to an existing graph
+            var graphs = [];
+            graphs.push({
+                name: 'Distributed Web Monitoring',
+                gitems: []
+            })
             
             var handleItems = function(callback) {
                 var remaining = items.length;
@@ -188,6 +197,12 @@
                                 return callback(err);
                             }
                             $('#items').append('.');
+                            // append itemId to graph
+                            graphs[0].gitems.push({
+                                itemid: parseInt(itemId),
+                                color: '009900'
+                            });
+                            
                             if (--remaining === 0) {
                                 $('#items').append(' total: '+ items.length);
                                 callback(null)
@@ -231,7 +246,8 @@
 
             async.waterfall([
                 handleItems,
-                handleTriggers
+                handleTriggers,
+                handleGraphs
             ], function(err) {
                 if (err) {
                     $('#results').append('Error !')
