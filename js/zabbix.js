@@ -272,7 +272,7 @@ Client.prototype.saveGraph = function(graph, options, callback) {
         hostids: [ graph.hostid ],
         filter: {name: graph.name},
         output: 'extend',
-        select_graph_items: 1
+        select_graph_items: 'extend'
     }, function(err, resp) {
         if (err) {
             callback(err);
