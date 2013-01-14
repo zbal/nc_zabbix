@@ -12,7 +12,10 @@
         },
         
         main: function () {
-            if (content) content.undelegateEvents();
+            if (content) {
+                content.undelegateEvents();
+                content.remove();
+            }
             new views.Main().render();
         },
         
@@ -25,7 +28,11 @@
                 if (err) {
                     new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
-                    if (content) content.undelegateEvents();
+                    if (content) {
+                        // stop event propagation and remove exiting view
+                        content.undelegateEvents();
+                        content.remove();
+                    }
                     content = new views.DistributedWebMonitoringAdd({host: resp.result[0]}).render();
                 }
             });
@@ -39,7 +46,10 @@
                 if (err) {
                     new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
-                    if (content) content.undelegateEvents();
+                    if (content) {
+                        content.undelegateEvents();
+                        content.remove();
+                    }
                     content = new views.DistributedWebMonitoringList({host: resp.result[0]}).render();
                 }
             });
@@ -55,7 +65,10 @@
                 if (err) {
                     new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
-                    if (content) content.undelegateEvents();
+                    if (content) {
+                        content.undelegateEvents();
+                        content.remove();
+                    }
                     content = new views.HaProxyAdd({host: resp.result[0]}).render();
                 }
             });
@@ -69,7 +82,10 @@
                 if (err) {
                     new views.Error({msg: err.data ? err.data : err.message}).render();
                 } else {
-                    if (content) content.undelegateEvents();
+                    if (content) {
+                        content.undelegateEvents();
+                        content.remove();
+                    }
                     content = new views.HaProxyList({host: resp.result[0]}).render();
                 }
             });
