@@ -11,10 +11,12 @@
         initialize: function(options) {
             _.bindAll(this, 'render');
             this.host = options.host;
+            return this;
         },
         render: function() {
             $('#create-haproxy').hide();
             this.$el.html(templates.haProxyAdd());
+            return this;
         },
         updateUrl: function(target) {
             // simply display the URL as a link when being entered to ensure it exists !
@@ -308,6 +310,7 @@
         initialize: function(options) {
             _.bindAll(this, 'render');
             this.host = options.host;
+            return this;
         },
         render: function() {
             var view = this;
@@ -336,21 +339,22 @@
                     key = key.replace(/\]$/, '');
                     
                     var detail = key.split(',');
+
                     var pxname = detail[2],
                         svname = detail[3];
                         
                     var pool = pools[pxname] || [];
-                    // if (svname !== 'FRONTEND' && svname !== 'BACKEND') {
-                        pool.push(svname);
-                    // }
+                    pool.push(svname);
                     pools[pxname] = pool;
-                })
+                });
                 
                 // clean pools
                 _.each(pools, function(pool, name) {
                     $('#pools > ul').append('<li><strong>'+ name +'</strong>: '+ _.uniq(pool).join(', ') +'</li>');
                 });
             });
+            
+            return this;
         }
     })
 }).apply(this, window.args);
