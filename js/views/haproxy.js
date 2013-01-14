@@ -258,7 +258,7 @@
             }, function(err, resp) {
                 // filter items
                 var items = _.filter(resp.result, function(item) {
-                    if (item.key_.indexOf(/^haproxy\[/) !== -1) {
+                    if (item.key_.search(/^haproxy\[/) !== -1) {
                         return true;
                     }
                 });
