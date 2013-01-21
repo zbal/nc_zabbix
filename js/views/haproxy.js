@@ -243,7 +243,19 @@
                             // graph management
                             // create template
                             if (!graphs_temp[item.pool]) {
-                                graphs_temp[item.pool] = _.clone(graphs_template)
+                                graphs_temp[item.pool] = {
+                                    front_back: {
+                                        name: 'HaProxy back/front session '+ item.pool,
+                                        hostid: parseInt(host.hostid),
+                                        gitems: []
+                                    }, 
+                                    stack: {
+                                        name: 'HaProxy node sessions '+ item.pool,
+                                        hostid: parseInt(host.hostid),
+                                        graphtype: 1,
+                                        gitems: []
+                                    }
+                                }
                             };
                             
                             if (item.name === 'rate') {
