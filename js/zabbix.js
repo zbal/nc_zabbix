@@ -294,9 +294,10 @@ Client.prototype.saveGraph = function(graph, options, callback) {
                     var gitems = resp.result[0].gitems;
                     _.each(gitems, function(gitem) {
                         // if already in the list we keep the original (color may have been changed, etc.)
-                        var position = _.indexOf(_.pluck(graph.gitems, 'itemid'), gitem.itemid);
+                        var itemids = _.pluck(graph.gitems, 'itemid');
+                        var position = _.indexOf(itemids, parseInt(gitem.itemid));
                         if (position !== -1) {
-                            graph.gitems = graph.gitems.splice(position, 1)
+                            graph.gitems.splice(position, 1)
                         }
                     })
                     // gitems have been cleaned and only new one are added, concatenate with original one

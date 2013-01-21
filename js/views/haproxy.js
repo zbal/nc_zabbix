@@ -232,6 +232,7 @@
                     hostid: parseInt(host.hostid)
                 }, function(err, applicationId) {
                     if (err) return callback(err);
+                    console.log(items);
                     items.forEach(function(item) {
                         item.applications = [ applicationId ];
                         window.zabbix.saveItem(item, function(err, itemId) {
@@ -241,47 +242,49 @@
                             $('#items').append('.');
                             
                             // graph management
-                            // create template
-                            if (!graphs_temp[item.pool]) {
-                                graphs_temp[item.pool] = {
-                                    front_back: {
-                                        name: 'HaProxy back/front session '+ item.pool,
-                                        hostid: parseInt(host.hostid),
-                                        gitems: []
-                                    }, 
-                                    stack: {
-                                        name: 'HaProxy node sessions '+ item.pool,
-                                        hostid: parseInt(host.hostid),
-                                        graphtype: 1,
-                                        gitems: []
+                            // only for items onitoring a pool
+                            if (!_.isUndefined(item.pool)) {
+                                if (!graphs_temp[item.pool]) {
+                                    graphs_temp[item.pool] = {
+                                        front_back: {
+                                            name: 'HaProxy back/front session '+ item.pool,
+                                            hostid: parseInt(host.hostid),
+                                            gitems: []
+                                        }, 
+                                        stack: {
+                                            name: 'HaProxy node sessions '+ item.pool,
+                                            hostid: parseInt(host.hostid),
+                                            graphtype: 1,
+                                            gitems: []
+                                        }
+                                    }
+                                };
+
+                                if (item.name === 'rate') {
+                                    if (item.svname === 'FRONTEND' || item.svname === 'BACKEND') {
+                                        // front + back
+                                        graphs_temp[item.pool].front_back.gitems.push({
+                                            itemid: parseInt(itemId),
+                                            color: '009900',
+                                            yaxisside: 0
+                                        });
                                     }
                                 }
-                            };
-                            
-                            if (item.name === 'rate') {
-                                if (item.svname === 'FRONTEND' || item.svname === 'BACKEND') {
-                                    // front + back
-                                    graphs_temp[item.pool].front_back.gitems.push({
-                                        itemid: parseInt(itemId),
-                                        color: '009900',
-                                        yaxisside: 0
-                                    });
-                                }
-                            }
-                            if (item.name === 'scur') {
-                                if (item.svname === 'FRONTEND' || item.svname === 'BACKEND') {
-                                    // front + back
-                                    graphs_temp[item.pool].front_back.gitems.push({
-                                        itemid: parseInt(itemId),
-                                        color: '009900',
-                                        yaxisside: 1
-                                    });
-                                } else {
-                                    // stack
-                                    graphs_temp[item.pool].stack.gitems.push({
-                                        itemid: parseInt(itemId),
-                                        color: '009900'
-                                    });
+                                if (item.name === 'scur') {
+                                    if (item.svname === 'FRONTEND' || item.svname === 'BACKEND') {
+                                        // front + back
+                                        graphs_temp[item.pool].front_back.gitems.push({
+                                            itemid: parseInt(itemId),
+                                            color: '009900',
+                                            yaxisside: 1
+                                        });
+                                    } else {
+                                        // stack
+                                        graphs_temp[item.pool].stack.gitems.push({
+                                            itemid: parseInt(itemId),
+                                            color: '009900'
+                                        });
+                                    }
                                 }
                             }
                             
@@ -289,10 +292,10 @@
                                 // flatten graphs_temp
                                 _.each(graphs_temp, function(pool) {
                                     // only handle graph with items!
-                                    if (!_.isEmpty(pool.front_back)) {
+                                    if (!_.isEmpty(pool.front_back.gitems)) {
                                         graphs.push(pool.front_back);
                                     }
-                                    if (!_.isEmpty(pool.stack)) {
+                                    if (!_.isEmpty(pool.stack.gitems)) {
                                         graphs.push(pool.stack);
                                     }
                                 });
