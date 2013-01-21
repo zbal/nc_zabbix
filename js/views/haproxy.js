@@ -211,7 +211,7 @@
             // build graph
             //
             var graphs_temp = {}; // build as an object to easily address it...
-            var graph = [];
+            var graphs = [];
             var graphs_template = {
                 front_back: {
                     name: 'HaProxy back/front session',
