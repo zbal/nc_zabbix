@@ -288,8 +288,13 @@
                             if (--remaining === 0) {
                                 // flatten graphs_temp
                                 _.each(graphs_temp, function(pool) {
-                                    graphs.push(pool.front_back);
-                                    graphs.push(pool.stack);
+                                    // only handle graph with items!
+                                    if (!_.isEmpty(pool.front_back)) {
+                                        graphs.push(pool.front_back);
+                                    }
+                                    if (!_.isEmpty(pool.stack)) {
+                                        graphs.push(pool.stack);
+                                    }
                                 });
                                 $('#items').append(' total: '+ items.length);
                                 callback(null)

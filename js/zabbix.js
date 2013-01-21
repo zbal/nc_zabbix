@@ -291,6 +291,15 @@ Client.prototype.saveGraph = function(graph, options, callback) {
                 if (update) {
                     graph.graphid = resp.result[0].graphid;
                     // concatenate the existing graph items with new one.
+                    var gitems = resp.result[0].gitems;
+                    _.each(gitems, function(gitem) {
+                        // if already in the list we keep the original (color may have been changed, etc.)
+                        var position = _.indexOf(_.pluck(graph.gitems, itemid), gitem.itemid);
+                        if (position !== -1) {
+                            graph.gitems = graph.gitems.splice(position, 1)
+                        }
+                    })
+                    // gitems have been cleaned and only new one are added, concatenate with original one
                     graph.gitems = resp.result[0].gitems.concat(graph.gitems);
                     self.call('graph.update', graph, function(err, resp) {
                         if (err) {
