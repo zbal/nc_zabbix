@@ -127,6 +127,9 @@
                     localItem.description = 'HA '+ server['# pxname'] +' '+ server['svname'] +' '+ item.description
                     localItem.key_ = 'haproxy[stat,'+ item.name +','+ server['# pxname'] +','+ server['svname'] +']';
 
+                    localItem.pool = server['# pxname'];
+                    localItem.svname = server['svname'];
+
                     // do some filtering as not all the items apply to all type of srvname
                     switch (item.name) {
                         case 'slim':
@@ -207,8 +210,21 @@
             //
             // build graph
             //
-            var graphs = [];
-            var graphs_template = {}
+            var graphs_temp = {}; // build as an object to easily address it...
+            var graph = [];
+            var graphs_template = {
+                front_back: {
+                    name: 'HaProxy back/front session',
+                    hostid: parseInt(host.hostid),
+                    gitems: []
+                }, 
+                stack: {
+                    name: 'HaProxy node sessions',
+                    hostid: parseInt(host.hostid),
+                    graphtype: 1,
+                    gitems: []
+                }
+            }
             
             var handleItems = function(callback) {
                 var remaining = items.length;
@@ -223,7 +239,46 @@
                                 return callback(err);
                             }
                             $('#items').append('.');
+                            
+                            // graph management
+                            // create template
+                            if (!graphs_temp[item.pool]) {
+                                graphs_temp[item.pool] = _.clone(graphs_template)
+                            };
+                            
+                            if (item.name === 'rate') {
+                                if (item.svname === 'FRONTEND' || item.svname === 'BACKEND') {
+                                    // front + back
+                                    graphs_temp[item.pool].front_back.gitems.push({
+                                        itemid: parseInt(itemId),
+                                        color: '009900',
+                                        yaxisside: 0
+                                    });
+                                }
+                            }
+                            if (item.name === 'scur') {
+                                if (item.svname === 'FRONTEND' || item.svname === 'BACKEND') {
+                                    // front + back
+                                    graphs_temp[item.pool].front_back.gitems.push({
+                                        itemid: parseInt(itemId),
+                                        color: '009900',
+                                        yaxisside: 1
+                                    });
+                                } else {
+                                    // stack
+                                    graphs_temp[item.pool].stack.gitems.push({
+                                        itemid: parseInt(itemId),
+                                        color: '009900'
+                                    });
+                                }
+                            }
+                            
                             if (--remaining === 0) {
+                                // flatten graphs_temp
+                                _.each(graphs_temp, function(pool) {
+                                    graphs.push(pool.front_back);
+                                    graphs.push(pool.stack);
+                                });
                                 $('#items').append(' total: '+ items.length);
                                 callback(null)
                             }
@@ -266,7 +321,8 @@
             
             async.waterfall([
                 handleItems,
-                handleTriggers
+                handleTriggers,
+                handleGraphs
             ], function(err) {
                 if (err) {
                     $('#results').append('Error !')

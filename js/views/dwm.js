@@ -185,6 +185,7 @@
                 gitems: []
             })
             
+            // Perform the save of the item and add the itemid in the graph
             var handleItems = function(callback) {
                 var remaining = items.length;
                 window.zabbix.getApplicationId('Distributed Web Monitoring', {
