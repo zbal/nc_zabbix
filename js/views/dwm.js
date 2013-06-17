@@ -146,8 +146,21 @@
                 { name: 'Bad return code',  value: '-40', priority: 3 },
                 { name: 'Bad text',         value: '-50', priority: 3 },
                 { name: '4xx error', from: '-499', to: '-400',  priority: 3 },
-                { name: '5xx error', from: '-599', to: '-500',  priority: 5 }
+                { name: '5xx error', from: '-599', to: '-500',  priority: 5 },
             ];
+
+            // Catpuring the nodata error after 5 min
+            var noDataTriggerExpr = '{'+ host.host +':'+ item.key_ +'.nodata(300)}=1';
+            var noDataTrigger = {
+                    description: 'Distributed Web Monitor - NO DATA - '+ url,
+                    expression: noDataTriggerExpr,
+                    url: 'https://wiki.service.chinanetcloud.com/wiki/Special:NCAlert?alertid=123',
+                    status: 0,
+                    priority: 3,
+                    type: 0,
+                    hostid: parseInt(host.hostid)
+            }
+            triggers.push(noDataTrigger);
 
             // iterate through triggers' list and append to actions to run
             _.each(triggers_template, function(trigger) {
