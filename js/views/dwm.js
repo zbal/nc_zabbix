@@ -150,7 +150,7 @@
             ];
 
             // Catpuring the nodata error after 5 min
-            var noDataTriggerExpr = '{'+ host.host +':'+ item.key_ +'.nodata(300)}=1';
+            var noDataTriggerExpr = '{'+ host.host +':'+ item.key_ +'.nodata(600)}=1';
             var noDataTrigger = {
                     description: 'Distributed Web Monitor - NO DATA - '+ url,
                     expression: noDataTriggerExpr,
