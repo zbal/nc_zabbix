@@ -103,6 +103,7 @@
             var text = $('#dwm_text').val();
             var frequency = $('#dwm_frequency').val();
             
+            if (_.isEmpty($('#webnode').val())) return alert('Select a region to run the DWM from and click UPDATE.');
             if (!url) return alert('Missing URL');
             if (!code) return alert('Missing return code');
             if (!timeout) return alert('Missing timeout');
