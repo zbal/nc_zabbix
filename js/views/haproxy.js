@@ -275,14 +275,22 @@
                                         // front + back
                                         graphs_temp[item.pool].front_back.gitems.push({
                                             itemid: parseInt(itemId),
-                                            color: '009900',
+                                            color: '990098',
                                             yaxisside: 1
                                         });
                                     } else {
                                         // stack
+                                        function makecolor() {
+                                            var text = "";
+                                            var possible = "0123456789abcdef";
+                                            for( var i=0; i < 6; i++ )
+                                                text += possible.charAt(Math.floor(Math.random() * possible.length));
+                                            return text;
+                                        }
+                                   
                                         graphs_temp[item.pool].stack.gitems.push({
                                             itemid: parseInt(itemId),
-                                            color: '009900'
+                                            color: makecolor()
                                         });
                                     }
                                 }
