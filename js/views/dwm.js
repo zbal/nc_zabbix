@@ -126,6 +126,7 @@
                 status: 0,
                 history: 7,
                 trends: 30,
+                trapper_hosts: '',
                 hostid: parseInt(host.hostid),
                 delay: frequency
             }
@@ -137,16 +138,21 @@
             // handle triggers
             //
             var triggers = [];
+            var PRIORITY_INFO = 1,
+                PRIORITY_WARNING = 2,
+                PRIORITY_AVERAGE = 3,
+                PRIORITY_HIGH = 4,
+                PRIORITY_DISASTER = 5;
             var triggers_template = [
-                { name: 'Other error',      value: '-1',  priority: 3 },
-                { name: 'Bad URL',          value: '-5',  priority: 3 },
-                { name: 'Bad DNS',          value: '-10', priority: 3 },
-                { name: 'Connection issue', value: '-20', priority: 4 },
-                { name: 'Timeout',          value: '-30', priority: 4 },
-                { name: 'Bad return code',  value: '-40', priority: 3 },
-                { name: 'Bad text',         value: '-50', priority: 3 },
-                { name: '4xx error', from: '-499', to: '-400',  priority: 3 },
-                { name: '5xx error', from: '-599', to: '-500',  priority: 5 },
+                { name: 'Other error',      value: '-1',  priority: PRIORITY_WARNING },
+                { name: 'Bad URL',          value: '-5',  priority: PRIORITY_WARNING },
+                { name: 'Bad DNS',          value: '-10', priority: PRIORITY_WARNING },
+                { name: 'Connection issue', value: '-20', priority: PRIORITY_HIGH },
+                { name: 'Timeout',          value: '-30', priority: PRIORITY_HIGH },
+                { name: 'Bad return code',  value: '-40', priority: PRIORITY_WARNING },
+                { name: 'Bad text',         value: '-50', priority: PRIORITY_WARNING },
+                { name: '4xx error', from: '-499', to: '-400',  priority: PRIORITY_WARNING },
+                { name: '5xx error', from: '-599', to: '-500',  priority: PRIORITY_DISASTER },
             ];
 
             // Catpuring the nodata error after 5 min
