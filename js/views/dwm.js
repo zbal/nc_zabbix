@@ -144,14 +144,14 @@
                 PRIORITY_HIGH = 4,
                 PRIORITY_DISASTER = 5;
             var triggers_template = [
-                { name: 'Other error',      value: '-1',  priority: PRIORITY_WARNING },
-                { name: 'Bad URL',          value: '-5',  priority: PRIORITY_WARNING },
-                { name: 'Bad DNS',          value: '-10', priority: PRIORITY_WARNING },
+                { name: 'Other error',      value: '-1',  priority: PRIORITY_DISASTER },
+                { name: 'Bad URL',          value: '-5',  priority: PRIORITY_DISASTER },
+                { name: 'Bad DNS',          value: '-10', priority: PRIORITY_DISASTER },
                 { name: 'Connection issue', value: '-20', priority: PRIORITY_HIGH },
                 { name: 'Timeout',          value: '-30', priority: PRIORITY_HIGH },
-                { name: 'Bad return code',  value: '-40', priority: PRIORITY_WARNING },
-                { name: 'Bad text',         value: '-50', priority: PRIORITY_WARNING },
-                { name: '4xx error', from: '-499', to: '-400',  priority: PRIORITY_WARNING },
+                { name: 'Bad return code',  value: '-40', priority: PRIORITY_DISASTER },
+                { name: 'Bad text',         value: '-50', priority: PRIORITY_DISASTER },
+                { name: '4xx error', from: '-499', to: '-400',  priority: PRIORITY_DISASTER },
                 { name: '5xx error', from: '-599', to: '-500',  priority: PRIORITY_DISASTER },
             ];
 
